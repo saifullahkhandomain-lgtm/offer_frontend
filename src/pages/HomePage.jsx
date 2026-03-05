@@ -32,7 +32,7 @@ function HomePage() {
     <>
       <SEO
         title="Home"
-        description="Discover the best coupons, promo codes, and deals for your favorite stores. Save money on every purchase with ClickOfferz."
+        description="Discover the best coupons, promo codes, and deals for your favorite stores. Save money on every purchase with DealClick."
         keywords="coupons, promo codes, deals, discounts, savings, online shopping"
       />
       <Hero />

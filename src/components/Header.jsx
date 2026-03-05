@@ -17,14 +17,25 @@ const Header = () => {
     <header className="bg-white shadow-sm border-b border-purple-50 sticky top-0 z-50">
       <div className="container mx-auto px-4 h-20 flex items-center justify-between">
         {/* Logo */}
-        {/* Logo */}
-        <Link to="/" className="flex flex-col z-50">
-          <span className="text-2xl font-bold text-primary">
-            Click<span className="text-accent">Offerz</span>
-          </span>
-          <span className="text-[10px] text-gray-400 uppercase tracking-wider">
-            Save With Us
-          </span>
+        <Link to="/" className="flex items-center z-50">
+          <img
+            src="/logo.png"
+            alt="DealClick"
+            className="h-20 w-auto object-contain"
+            onError={(e) => {
+              e.target.style.display = "none";
+              e.target.nextSibling.style.display = "flex";
+            }}
+          />
+          {/* Fallback text logo */}
+          <div className="flex-col hidden" style={{ display: "none" }}>
+            <span className="text-2xl font-bold text-primary">
+              Deal<span className="text-accent">Click</span>
+            </span>
+            <span className="text-[10px] text-gray-400 uppercase tracking-wider">
+              Save With Us
+            </span>
+          </div>
         </Link>
 
         {/* Desktop Navigation */}

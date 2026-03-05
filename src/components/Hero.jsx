@@ -200,9 +200,9 @@ const Hero = () => {
                                 }}
                                 className="px-6 py-3 hover:bg-primary-light cursor-pointer flex items-center justify-between group"
                               >
-                                <div className="flex items-center gap-3">
+                                <div className="flex flex-col items-center gap-3">
                                   {store.logo && (
-                                    <div className="w-8 h-8 rounded-full bg-white border border-gray-100 flex items-center justify-center overflow-hidden text-lg">
+                                    <div className="w-12 h-12 rounded-full bg-white border border-gray-100 flex items-center justify-center overflow-hidden text-lg">
                                       {store.logo}
                                     </div>
                                   )}

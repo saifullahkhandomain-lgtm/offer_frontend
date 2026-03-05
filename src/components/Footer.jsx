@@ -206,7 +206,7 @@ const Footer = () => {
             {/* About */}
             <div>
               <h4 className="text-white font-bold text-lg mb-4">
-                Click<span className="text-primary">Offerz</span>
+                Deal<span className="text-accent">Click</span>
               </h4>
               <p className="text-sm text-gray-400 mb-4">
                 Your trusted source for saving money online since 2000. We've
@@ -245,7 +245,7 @@ const Footer = () => {
       {/* Bottom Bar */}
       <div className="bg-[#080516] py-4 border-t border-white/5">
         <div className="container mx-auto px-4 text-center text-sm text-gray-500">
-          Copyright © 2024 ClickOfferz. All Rights Reserved.
+          Copyright © 2026 DealClick. All Rights Reserved.
         </div>
       </div>
     </footer>
