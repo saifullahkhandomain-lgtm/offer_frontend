@@ -2,7 +2,7 @@ import React from "react";
 import { Helmet } from "react-helmet-async";
 
 const SEO = ({ title, description, keywords, url, image }) => {
-  const siteTitle = "DealClick - Best Deals & Coupons";
+  const siteTitle = "DealDash - Best Deals & Coupons";
   const siteUrl = window.location.origin;
 
   return (
@@ -12,7 +12,7 @@ const SEO = ({ title, description, keywords, url, image }) => {
         name="description"
         content={
           description ||
-          "Find the best deals, promo codes, and discounts for your favorite stores at DealClick."
+          "Find the best deals, promo codes, and discounts for your favorite stores at DealDash."
         }
       />
       <meta
@@ -34,7 +34,7 @@ const SEO = ({ title, description, keywords, url, image }) => {
         property="og:description"
         content={
           description ||
-          "Find the best deals, promo codes, and discounts at DealClick."
+          "Find the best deals, promo codes, and discounts at DealDash."
         }
       />
       {image && <meta property="og:image" content={image} />}

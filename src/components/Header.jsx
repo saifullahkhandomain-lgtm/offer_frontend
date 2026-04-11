@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-const DealClickLogo = () => (
+const DealDashLogo = () => (
   <svg width="160" height="44" viewBox="0 0 160 44" fill="none" xmlns="http://www.w3.org/2000/svg">
     {/* Icon mark — violet tag shape */}
     <rect x="0" y="8" width="28" height="28" rx="7" fill="#7C3AED" />
@@ -9,8 +9,8 @@ const DealClickLogo = () => (
     <circle cx="18" cy="16" r="2.2" fill="#06B6D4" />
     {/* "Deal" text */}
     <text x="34" y="30" fontFamily="Poppins, sans-serif" fontWeight="700" fontSize="20" fill="#2E1065">Deal</text>
-    {/* "Click" text in violet */}
-    <text x="79" y="30" fontFamily="Poppins, sans-serif" fontWeight="700" fontSize="20" fill="#7C3AED">Click</text>
+    {/* "Dash" text in violet */}
+    <text x="79" y="30" fontFamily="Poppins, sans-serif" fontWeight="700" fontSize="20" fill="#7C3AED">Dash</text>
     {/* Tagline */}
     <text x="34" y="41" fontFamily="Poppins, sans-serif" fontWeight="400" fontSize="8" fill="#a78bfa" letterSpacing="2">SAVE WITH US</text>
   </svg>
@@ -33,7 +33,7 @@ const Header = () => {
       <div className="container mx-auto px-4 h-20 flex items-center justify-between">
         {/* Logo */}
         <Link to="/" className="flex items-center z-50">
-          <DealClickLogo />
+          <DealDashLogo />
         </Link>
 
         {/* Desktop Navigation */}

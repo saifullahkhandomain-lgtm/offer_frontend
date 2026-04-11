@@ -32,7 +32,7 @@ const BlogPage = () => {
     <div className="bg-gray-50 min-h-screen pb-20">
       {/* Header */}
       <div className="bg-primary text-white py-20 px-4 text-center">
-        <h1 className="text-4xl md:text-5xl font-bold mb-4">DealClick Blog</h1>
+        <h1 className="text-4xl md:text-5xl font-bold mb-4">DealDash Blog</h1>
         <p className="text-xl max-w-2xl mx-auto opacity-90">
           Latest tips, tricks, and guides on how to save money and shop smarter.
         </p>

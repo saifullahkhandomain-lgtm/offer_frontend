@@ -55,7 +55,7 @@ function HomePage() {
     <>
       <SEO
         title="Home"
-        description="Discover the best coupons, promo codes, and deals for your favorite stores. Save money on every purchase with DealClick."
+        description="Discover the best coupons, promo codes, and deals for your favorite stores. Save money on every purchase with DealDash."
         keywords="coupons, promo codes, deals, discounts, savings, online shopping"
       />
 
@@ -119,7 +119,7 @@ function HomePage() {
       {/* 7. Latest Coupons */}
       <LatestCoupons />
 
-      {/* 8. Why DealClick */}
+      {/* 8. Why DealDash */}
       <WhyUs />
 
       {/* 9. Blog */}

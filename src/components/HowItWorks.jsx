@@ -42,7 +42,7 @@ const HowItWorks = () => {
         <div className="text-center mb-16">
           <div className="section-tag mx-auto">⚡ Simple Process</div>
           <h2 className="text-3xl md:text-5xl font-bold text-textMain mt-2 leading-tight">
-            How <span className="text-gradient-violet">DealClick</span> Works
+            How <span className="text-gradient-violet">DealDash</span> Works
           </h2>
           <p className="text-gray-500 mt-3 text-lg max-w-xl mx-auto">
             From search to savings in under 60 seconds — no membership required

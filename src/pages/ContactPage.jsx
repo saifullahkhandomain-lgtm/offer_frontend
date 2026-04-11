@@ -143,7 +143,7 @@ const ContactPage = () => {
               📧
             </div>
             <h3 className="font-bold text-gray-800 mb-2">Email Us</h3>
-            <p className="text-gray-500">support@dealclick.com</p>
+            <p className="text-gray-500">support@dealdash.com</p>
           </div>
           <div className="p-6 bg-white rounded-xl shadow-sm border border-gray-100">
             <div className="w-12 h-12 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
@@ -157,7 +157,7 @@ const ContactPage = () => {
               💼
             </div>
             <h3 className="font-bold text-gray-800 mb-2">Business</h3>
-            <p className="text-gray-500">partners@dealclick.com</p>
+            <p className="text-gray-500">partners@dealdash.com</p>
           </div>
         </div>
       </div>

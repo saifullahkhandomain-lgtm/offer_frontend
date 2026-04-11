@@ -33,7 +33,7 @@ const Sidebar = () => {
         </svg>
         <div>
           <h1 className="text-lg font-bold leading-none">
-            Deal<span className="text-primary">Click</span>
+            Deal<span className="text-primary">Dash</span>
           </h1>
           <span className="text-xs text-gray-400">Admin Panel</span>
         </div>
