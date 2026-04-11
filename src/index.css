@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 body {
-  background-color: #f8f7ff;
-  color: #0f0a2e;
+  background-color: #FAF5FF;
+  color: #2E1065;
   font-family: "Poppins", sans-serif;
 }
 
@@ -18,14 +18,14 @@ body {
   }
 
   .text-gradient {
-    background: linear-gradient(135deg, #f97316, #fbbf24);
+    background: linear-gradient(135deg, #06B6D4, #0ea5e9);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
-  .text-gradient-purple {
-    background: linear-gradient(135deg, #7c3aed, #a78bfa);
+  .text-gradient-violet {
+    background: linear-gradient(135deg, #7C3AED, #a78bfa);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -34,10 +34,10 @@ body {
   .text-shimmer {
     background: linear-gradient(
       90deg,
-      #f97316 0%,
-      #fbbf24 40%,
-      #f97316 60%,
-      #fbbf24 100%
+      #06B6D4 0%,
+      #a78bfa 40%,
+      #06B6D4 60%,
+      #a78bfa 100%
     );
     background-size: 200% auto;
     -webkit-background-clip: text;
@@ -73,7 +73,7 @@ body {
   .blob-1 {
     width: 500px;
     height: 500px;
-    background: radial-gradient(circle, #7c3aed, #5b21b6);
+    background: radial-gradient(circle, #7C3AED, #6D28D9);
     top: -150px;
     left: -100px;
     animation-duration: 10s;
@@ -81,7 +81,7 @@ body {
   .blob-2 {
     width: 400px;
     height: 400px;
-    background: radial-gradient(circle, #f97316, #ef4444);
+    background: radial-gradient(circle, #06B6D4, #0284c7);
     bottom: -100px;
     right: -80px;
     animation-duration: 8s;
@@ -90,7 +90,7 @@ body {
   .blob-3 {
     width: 300px;
     height: 300px;
-    background: radial-gradient(circle, #06b6d4, #3b82f6);
+    background: radial-gradient(circle, #a78bfa, #7C3AED);
     top: 40%;
     left: 50%;
     animation-duration: 12s;
@@ -101,8 +101,8 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    background: linear-gradient(135deg, #ede9fe, #ddd6fe);
-    color: #7c3aed;
+    background: linear-gradient(135deg, #EDE9FE, #ddd6fe);
+    color: #7C3AED;
     font-size: 0.75rem;
     font-weight: 600;
     padding: 4px 14px;

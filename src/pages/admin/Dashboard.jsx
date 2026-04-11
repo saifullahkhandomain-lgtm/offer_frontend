@@ -29,7 +29,7 @@ const Dashboard = () => {
 
     const statCards = [
         { title: 'Total Stores', value: stats.totalStores, icon: '🏪', color: 'bg-blue-500' },
-        { title: 'Total Coupons', value: stats.totalCoupons, icon: '🎫', color: 'bg-purple-500' },
+        { title: 'Total Coupons', value: stats.totalCoupons, icon: '🎫', color: 'bg-primary' },
         { title: 'Active Coupons', value: stats.activeCoupons, icon: '✅', color: 'bg-green-500' },
         { title: 'Expired Coupons', value: stats.expiredCoupons, icon: '⏰', color: 'bg-orange-500' },
     ];
@@ -73,7 +73,7 @@ const Dashboard = () => {
                     </Link>
                     <Link
                         to="/admin/coupons"
-                        className="flex items-center gap-3 p-4 border-2 border-purple-200 rounded-lg hover:bg-purple-50 transition-colors"
+                        className="flex items-center gap-3 p-4 border-2 border-primary-light rounded-lg hover:bg-primary-light transition-colors"
                     >
                         <span className="text-2xl">📋</span>
                         <span className="font-medium text-gray-700">View All Coupons</span>

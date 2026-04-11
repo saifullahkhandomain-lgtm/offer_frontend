@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { API_URL } from "../config";
 import { toast } from "react-toastify";
 
@@ -139,7 +139,7 @@ const ContactPage = () => {
         {/* Additional Info */}
         <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
           <div className="p-6 bg-white rounded-xl shadow-sm border border-gray-100">
-            <div className="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
+            <div className="w-12 h-12 bg-primary-light rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
               📧
             </div>
             <h3 className="font-bold text-gray-800 mb-2">Email Us</h3>
@@ -153,7 +153,7 @@ const ContactPage = () => {
             <p className="text-gray-500">Available 24/7 Worldwide</p>
           </div>
           <div className="p-6 bg-white rounded-xl shadow-sm border border-gray-100">
-            <div className="w-12 h-12 bg-purple-50 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
+            <div className="w-12 h-12 bg-violet-50 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">
               💼
             </div>
             <h3 className="font-bold text-gray-800 mb-2">Business</h3>

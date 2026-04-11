@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { API_URL } from "../config";
 import CouponCard from "../components/CouponCard";
@@ -21,10 +21,10 @@ const TrendingCoupons = () => {
   }, []);
 
   const overlayColors = [
-    "from-teal-400/20 to-teal-600/20",
+    "from-violet-400/20 to-violet-600/20",
     "from-yellow-400/20 to-yellow-600/20",
     "from-pink-400/20 to-pink-600/20",
-    "from-purple-400/20 to-purple-600/20",
+    "from-violet-400/20 to-violet-600/20",
     "from-blue-400/20 to-blue-600/20",
     "from-orange-400/20 to-orange-600/20",
   ];

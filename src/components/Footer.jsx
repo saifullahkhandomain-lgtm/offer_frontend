@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { API_URL } from "../config";
@@ -119,9 +119,9 @@ const Footer = () => {
   const activeSocials = getActiveSocials();
 
   return (
-    <footer className="bg-[#0F0A2E] text-gray-300 mt-auto">
+    <footer className="bg-[#1a0050] text-gray-300 mt-auto">
       {/* Newsletter Section */}
-      <div className="bg-[#1a1040] py-12 border-b border-white/5">
+      <div className="bg-[#2a0a5e] py-12 border-b border-white/5">
         <div className="container mx-auto px-4 text-center">
           <h3 className="text-2xl font-bold text-white mb-4">
             Subscribe To Our Weekly Newsletter!
@@ -243,7 +243,7 @@ const Footer = () => {
       </div>
 
       {/* Bottom Bar */}
-      <div className="bg-[#080516] py-4 border-t border-white/5">
+      <div className="bg-[#0d0020] py-4 border-t border-white/5">
         <div className="container mx-auto px-4 text-center text-sm text-gray-500">
           Copyright © 2026 DealClick. All Rights Reserved.
         </div>

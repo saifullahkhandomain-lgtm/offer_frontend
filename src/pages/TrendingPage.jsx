@@ -99,10 +99,10 @@ function TrendingPage() {
     return (
         <div className="bg-background min-h-screen">
             {/* Page Header */}
-            <div className="bg-gradient-to-br from-purple-600 to-pink-600">
+            <div className="bg-gradient-to-br from-primary to-pink-600">
                 <div className="container mx-auto px-4 py-16">
                     <h1 className="text-4xl font-bold text-white mb-4">🔥 Trending Coupons</h1>
-                    <p className="text-purple-100 text-lg">Hot deals everyone is using right now</p>
+                    <p className="text-purple-200 text-lg">Hot deals everyone is using right now</p>
                 </div>
             </div>
 
@@ -114,7 +114,7 @@ function TrendingPage() {
                         placeholder="Search trending coupons..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="flex-grow h-12 px-6 rounded-lg border border-gray-200 focus:outline-none focus:border-purple-600 focus:ring-2 focus:ring-purple-600/20 shadow-sm"
+                        className="flex-grow h-12 px-6 rounded-lg border border-gray-200 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 shadow-sm"
                     />
                     <div className="flex flex-wrap gap-2">
                         {categories.map((cat) => (
@@ -122,8 +122,8 @@ function TrendingPage() {
                                 key={cat}
                                 onClick={() => setActiveFilter(cat)}
                                 className={`px-5 py-2 rounded-full font-medium text-sm transition-all ${activeFilter === cat
-                                    ? 'bg-purple-600 text-white shadow-md'
-                                    : 'bg-white text-gray-600 border border-gray-200 hover:border-purple-600 hover:text-purple-600'
+                                    ? 'bg-primary text-white shadow-md'
+                                    : 'bg-white text-gray-600 border border-gray-200 hover:border-primary hover:text-primary'
                                     }`}
                             >
                                 {cat}
@@ -138,10 +138,10 @@ function TrendingPage() {
                         Showing <span className="font-bold text-textMain">{filteredCoupons.length}</span> trending offers on this page
                     </span>
                     <div className="flex gap-4">
-                        <Link to="/coupons" className="text-purple-600 font-medium hover:underline">
+                        <Link to="/coupons" className="text-primary font-medium hover:underline">
                             All Coupons →
                         </Link>
-                        <Link to="/deals" className="text-purple-600 font-medium hover:underline">
+                        <Link to="/deals" className="text-primary font-medium hover:underline">
                             All Deals →
                         </Link>
                     </div>
@@ -150,7 +150,7 @@ function TrendingPage() {
                 {/* Coupons Grid */}
                 {loading ? (
                     <div className="text-center py-24">
-                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto"></div>
+                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
                         <p className="text-gray-500 mt-4">Loading trending coupons...</p>
                     </div>
                 ) : filteredCoupons.length > 0 ? (
@@ -169,7 +169,7 @@ function TrendingPage() {
                                     disabled={page === 1}
                                     className={`px-4 py-2 rounded-lg border text-sm font-medium ${page === 1
                                             ? 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed'
-                                            : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50 hover:text-purple-600'
+                                            : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50 hover:text-primary'
                                         }`}
                                 >
                                     Previous
@@ -183,8 +183,8 @@ function TrendingPage() {
                                             key={pageNum}
                                             onClick={() => handlePageChange(pageNum)}
                                             className={`w-10 h-10 rounded-lg text-sm font-bold flex items-center justify-center transition-all ${page === pageNum
-                                                    ? 'bg-purple-600 text-white shadow-md'
-                                                    : 'bg-white text-gray-600 border border-gray-200 hover:border-purple-600 hover:text-purple-600'
+                                                    ? 'bg-primary text-white shadow-md'
+                                                    : 'bg-white text-gray-600 border border-gray-200 hover:border-primary hover:text-primary'
                                                 }`}
                                         >
                                             {pageNum}
@@ -197,7 +197,7 @@ function TrendingPage() {
                                     disabled={page === totalPages}
                                     className={`px-4 py-2 rounded-lg border text-sm font-medium ${page === totalPages
                                             ? 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed'
-                                            : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50 hover:text-purple-600'
+                                            : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50 hover:text-primary'
                                         }`}
                                 >
                                     Next

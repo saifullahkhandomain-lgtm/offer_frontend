@@ -1,9 +1,7 @@
-import React from "react";
-
 const Newsletter = () => {
   return (
     <section className="container mx-auto px-4 py-20">
-      <div className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-[#0F0A2E] via-[#2D1B69] to-[#5B21B6] p-8 md:p-16 text-center">
+      <div className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-[#1a0050] via-[#3b0764] to-[#7C3AED] p-8 md:p-16 text-center">
         {/* Decorative blobs */}
         <div className="absolute top-0 left-0 w-80 h-80 bg-accent/20 rounded-full blur-3xl -translate-x-1/3 -translate-y-1/3 pointer-events-none"></div>
         <div className="absolute bottom-0 right-0 w-64 h-64 bg-purple-400/20 rounded-full blur-3xl translate-x-1/3 translate-y-1/3 pointer-events-none"></div>

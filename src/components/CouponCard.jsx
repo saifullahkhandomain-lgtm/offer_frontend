@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import CouponModal from "./CouponModal";
 
@@ -100,7 +100,7 @@ const CouponCard = ({ coupon }) => {
           {coupon.type === "Code" ? (
             <button
               onClick={() => setIsModalOpen(true)}
-              className="w-full border-2 border-dashed border-primary bg-blue-50 text-primary py-3 rounded-lg font-bold tracking-wider hover:bg-primary hover:text-white hover:border-solid transition-all"
+              className="w-full border-2 border-dashed border-primary bg-primary-light text-primary py-3 rounded-lg font-bold tracking-wider hover:bg-primary hover:text-white hover:border-solid transition-all"
             >
               GET CODE
             </button>

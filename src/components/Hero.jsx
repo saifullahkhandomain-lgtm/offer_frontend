@@ -86,7 +86,7 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative min-h-[92vh] flex items-center overflow-hidden bg-gradient-to-br from-[#0F0A2E] via-[#1E1152] to-[#5B21B6]">
+    <section className="relative min-h-[92vh] flex items-center overflow-hidden bg-gradient-to-br from-[#1a0050] via-[#3b0764] to-[#7C3AED]">
       {/* Animated background blobs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="blob blob-1"></div>
@@ -105,7 +105,7 @@ const Hero = () => {
 
       {/* Floating Deal Badges */}
       <div className="absolute top-24 left-8 xl:left-24 animate-float hidden lg:block z-10">
-        <div className="bg-white rounded-2xl px-4 py-3 shadow-2xl border border-purple-100">
+        <div className="bg-white rounded-2xl px-4 py-3 shadow-2xl border border-purple-200">
           <div className="flex items-center gap-2">
             <span className="text-2xl">🔥</span>
             <div>
@@ -118,7 +118,7 @@ const Hero = () => {
         </div>
       </div>
       <div className="absolute top-32 right-8 xl:right-24 animate-float-delay hidden lg:block z-10">
-        <div className="bg-white rounded-2xl px-4 py-3 shadow-2xl border border-purple-100">
+        <div className="bg-white rounded-2xl px-4 py-3 shadow-2xl border border-purple-200">
           <div className="flex items-center gap-2">
             <span className="text-2xl">✅</span>
             <div>
@@ -292,6 +292,34 @@ const Hero = () => {
         </div>
       </div>
 
+      {/* Live Savings Ticker */}
+      <div className="absolute bottom-20 left-0 right-0 overflow-hidden py-3 border-y border-white/10 bg-black/20 backdrop-blur-sm">
+        <div className="flex gap-0 animate-ticker" style={{ width: "max-content" }}>
+          {[
+            "🎉 Ahmed saved $48 at Nike",
+            "🛍️ Sara grabbed 30% OFF at ASOS",
+            "💸 James saved $120 at Apple",
+            "🔥 Priya used SAVE20 at Myntra",
+            "✅ Luis saved $15 at Uber Eats",
+            "🎁 Emma got free shipping at ZARA",
+            "💰 Kevin saved $90 at Samsung",
+            "🚀 Aisha used code DEAL50 at H&M",
+            "🎉 Ahmed saved $48 at Nike",
+            "🛍️ Sara grabbed 30% OFF at ASOS",
+            "💸 James saved $120 at Apple",
+            "🔥 Priya used SAVE20 at Myntra",
+            "✅ Luis saved $15 at Uber Eats",
+            "🎁 Emma got free shipping at ZARA",
+            "💰 Kevin saved $90 at Samsung",
+            "🚀 Aisha used code DEAL50 at H&M",
+          ].map((item, i) => (
+            <span key={i} className="text-white/80 text-sm font-medium px-8 whitespace-nowrap border-r border-white/10">
+              {item}
+            </span>
+          ))}
+        </div>
+      </div>
+
       {/* Bottom wave */}
       <div className="absolute bottom-0 left-0 right-0">
         <svg
@@ -301,7 +329,7 @@ const Hero = () => {
         >
           <path
             d="M0 80L60 68C120 56 240 32 360 24C480 16 600 24 720 34.7C840 45.3 960 58.7 1080 61.3C1200 64 1320 56 1380 52L1440 48V80H1380C1320 80 1200 80 1080 80C960 80 840 80 720 80C600 80 480 80 360 80C240 80 120 80 60 80H0Z"
-            fill="#F8F7FF"
+            fill="#F0FDFA"
           />
         </svg>
       </div>

@@ -4,19 +4,21 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "#F8F7FF",
-        textMain: "#0F0A2E",
+        background: "#FAF5FF",
+        textMain: "#2E1065",
         primary: "#7C3AED",
-        "primary-dark": "#5B21B6",
+        "primary-dark": "#6D28D9",
         "primary-light": "#EDE9FE",
-        accent: "#F97316",
-        "accent-light": "#FFF7ED",
+        accent: "#06B6D4",
+        "accent-light": "#CFFAFE",
         success: "#10B981",
       },
       fontFamily: {
         sans: ["Poppins", "sans-serif"],
       },
       animation: {
+        ticker: "ticker 28s linear infinite",
+        "ticker-reverse": "tickerReverse 32s linear infinite",
         float: "float 6s ease-in-out infinite",
         "float-slow": "float 9s ease-in-out infinite",
         "float-delay": "float 7s ease-in-out 2s infinite",
@@ -53,6 +55,14 @@ export default {
         bounceBadge: {
           "0%, 100%": { transform: "translateY(0) rotate(-3deg)" },
           "50%": { transform: "translateY(-10px) rotate(3deg)" },
+        },
+        ticker: {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(-50%)" },
+        },
+        tickerReverse: {
+          "0%": { transform: "translateX(-50%)" },
+          "100%": { transform: "translateX(0)" },
         },
       },
     },

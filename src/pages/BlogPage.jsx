@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { API_URL } from "../config";
@@ -72,7 +72,7 @@ const BlogPage = () => {
                     {blog.tags.slice(0, 2).map((tag, idx) => (
                       <span
                         key={idx}
-                        className="bg-blue-50 text-blue-600 text-xs font-bold px-2 py-1 rounded-full uppercase tracking-wider"
+                        className="bg-primary-light text-primary text-xs font-bold px-2 py-1 rounded-full uppercase tracking-wider"
                       >
                         {tag}
                       </span>

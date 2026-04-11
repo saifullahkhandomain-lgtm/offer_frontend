@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import CouponCard from "./CouponCard";
 import { API_URL } from "../config";
@@ -73,9 +73,9 @@ const LatestCoupons = () => {
         <div className="mt-12 text-center">
           <Link
             to="/coupons"
-            className="inline-block px-8 py-3 bg-white border border-gray-200 text-textMain font-bold rounded-full hover:shadow-md transition-all"
+            className="inline-flex items-center gap-2 px-10 py-4 bg-gradient-to-r from-primary to-primary-dark text-white font-bold rounded-full hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 transition-all active:scale-95"
           >
-            View All Coupons
+            🎫 Explore All Coupons
           </Link>
         </div>
       </div>

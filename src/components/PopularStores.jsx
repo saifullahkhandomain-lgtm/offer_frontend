@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { API_URL } from '../config';
 
@@ -29,7 +29,7 @@ const PopularStores = () => {
                         to={`/store/${store.name.toLowerCase().replace(/\s+/g, '-')}`}
                         className="group bg-white rounded-xl p-6 border border-gray-100 hover:shadow-lg transition-all duration-300 flex flex-col items-center justify-center"
                     >
-                        <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center text-xl font-bold text-gray-400 mb-4 group-hover:bg-blue-50 group-hover:text-primary transition-colors overflow-hidden">
+                        <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center text-xl font-bold text-gray-400 mb-4 group-hover:bg-primary-light group-hover:text-primary transition-colors overflow-hidden">
                             {(store.logo && (store.logo.startsWith('http') || store.logo.startsWith('data:'))) ? (
                                 <img src={store.logo} alt={store.name} className="w-full h-full object-cover" />
                             ) : (

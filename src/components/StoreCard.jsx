@@ -1,5 +1,3 @@
-import React from "react";
-
 const StoreCard = ({ store }) => {
   const renderLogo = () => {
     // Auto-detect image if logoType is not explicitly set or set to 'emoji' but content looks like image
@@ -28,7 +26,7 @@ const StoreCard = ({ store }) => {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_24px_rgba(124,58,237,0.12)] p-6 border border-gray-100 flex flex-col items-center justify-center cursor-pointer hover:-translate-y-1 transition-all duration-300 h-44 group">
+    <div className="bg-white rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_24px_rgba(13,148,136,0.15)] p-6 border border-gray-100 flex flex-col items-center justify-center cursor-pointer hover:-translate-y-1 transition-all duration-300 h-44 group">
       <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center text-gray-400 font-bold mb-4 group-hover:bg-primary-light group-hover:text-primary transition-colors overflow-hidden">
         {renderLogo()}
       </div>

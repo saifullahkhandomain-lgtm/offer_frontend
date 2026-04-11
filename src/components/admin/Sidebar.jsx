@@ -1,4 +1,3 @@
-import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 
@@ -26,22 +25,18 @@ const Sidebar = () => {
   return (
     <div className="w-64 bg-gray-900 min-h-screen text-white flex flex-col">
       {/* Logo */}
-      <div className="p-2 border-b border-gray-700 flex items-center gap-3">
-        <img
-          src="/logo.png"
-          alt="DealClick"
-          className="h-16 w-auto object-contain"
-          onError={(e) => {
-            e.target.style.display = "none";
-            e.target.nextSibling.style.display = "block";
-          }}
-        />
-        <div style={{ display: "none" }}>
-          <h1 className="text-2xl font-bold">
-            Deal<span className="text-accent">Click</span>
+      <div className="p-4 border-b border-gray-700 flex items-center gap-2">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="0" y="2" width="28" height="28" rx="7" fill="#7C3AED" />
+          <path d="M5 16 L12 9 L19 16 L12 23 Z" fill="white" strokeLinejoin="round" />
+          <circle cx="16" cy="10" r="2.2" fill="#F472B6" />
+        </svg>
+        <div>
+          <h1 className="text-lg font-bold leading-none">
+            Deal<span className="text-primary">Click</span>
           </h1>
+          <span className="text-xs text-gray-400">Admin Panel</span>
         </div>
-        {/* <span className="text-xs text-gray-400 mt-0.5">Admin Panel</span> */}
       </div>
 
       {/* Menu Items */}
@@ -52,7 +47,7 @@ const Sidebar = () => {
             to={item.path}
             className={`flex items-center gap-3 px-4 py-3 rounded-lg mb-2 transition-colors ${
               location.pathname === item.path
-                ? "bg-purple-600 text-white"
+                ? "bg-primary text-white"
                 : "text-gray-300 hover:bg-gray-800"
             }`}
           >

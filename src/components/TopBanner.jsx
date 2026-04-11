@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { API_URL } from "../config";
@@ -42,7 +42,7 @@ const TopBanner = () => {
   const activeSocials = getActiveSocials();
 
   return (
-    <div className="bg-gradient-to-r from-[#0F0A2E] to-primary text-white py-2 text-sm">
+    <div className="bg-gradient-to-r from-[#1a0050] to-primary text-white py-2 text-sm">
       <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-2">
         <div className="flex items-center gap-2">
           <span className="font-medium">💰 Earn Cash Back Online.</span>
