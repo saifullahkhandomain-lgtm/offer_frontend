@@ -2,17 +2,44 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 
 const DealDashLogo = () => (
-  <svg width="160" height="44" viewBox="0 0 160 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-    {/* Icon mark — violet tag shape */}
-    <rect x="0" y="8" width="28" height="28" rx="7" fill="#7C3AED" />
-    <path d="M7 22 L14 15 L21 22 L14 29 Z" fill="white" stroke="white" strokeWidth="1" strokeLinejoin="round" />
-    <circle cx="18" cy="16" r="2.2" fill="#06B6D4" />
-    {/* "Deal" text */}
-    <text x="34" y="30" fontFamily="Poppins, sans-serif" fontWeight="700" fontSize="20" fill="#2E1065">Deal</text>
-    {/* "Dash" text in violet */}
-    <text x="79" y="30" fontFamily="Poppins, sans-serif" fontWeight="700" fontSize="20" fill="#7C3AED">Dash</text>
-    {/* Tagline */}
-    <text x="34" y="41" fontFamily="Poppins, sans-serif" fontWeight="400" fontSize="8" fill="#a78bfa" letterSpacing="2">SAVE WITH US</text>
+  <svg width="172" height="48" viewBox="0 0 172 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="logoGrad" x1="0" y1="0" x2="44" y2="44" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stopColor="#8B5CF6" />
+        <stop offset="100%" stopColor="#6D28D9" />
+      </linearGradient>
+    </defs>
+
+    {/* Icon background */}
+    <rect x="0" y="4" width="40" height="40" rx="11" fill="url(#logoGrad)" />
+
+    {/* Price-tag shape (pointing right) */}
+    <path d="M8 16 H22 L31 24 L22 32 H8 V16 Z" fill="white" />
+
+    {/* Tag hole */}
+    <circle cx="13.5" cy="24" r="2.5" fill="#6D28D9" />
+
+    {/* "Deal" wordmark */}
+    <text
+      x="50" y="31"
+      fontFamily="Poppins, system-ui, sans-serif"
+      fontWeight="800"
+      fontSize="23"
+      fill="#1E0A4E"
+    >
+      Deal
+    </text>
+
+    {/* "Dash" wordmark in brand violet */}
+    <text
+      x="105" y="31"
+      fontFamily="Poppins, system-ui, sans-serif"
+      fontWeight="800"
+      fontSize="23"
+      fill="#7C3AED"
+    >
+      Dash
+    </text>
   </svg>
 );
 

@@ -206,7 +206,7 @@ const Footer = () => {
             {/* About */}
             <div>
               <h4 className="text-white font-bold text-lg mb-4">
-                Deal<span className="text-accent">Click</span>
+                Deal<span className="text-accent">Dash</span>
               </h4>
               <p className="text-sm text-gray-400 mb-4">
                 Your trusted source for saving money online since 2000. We've
