@@ -1,10 +1,11 @@
 import React, { useEffect, useState, useMemo } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { useGetStoresQuery } from '../store/api/publicEndpoints';
+import Loader from '../components/Loader'
 import StoreCard from '../components/StoreCard'
 
 function StoresPage() {
-    const { data: storesData = [] } = useGetStoresQuery();
+    const { data: storesData = [], isLoading: loading } = useGetStoresQuery();
     const stores = Array.isArray(storesData) ? storesData : [];
     const [activeLetter, setActiveLetter] = useState('All');
     const [searchTerm, setSearchTerm] = useState('');
@@ -34,6 +35,8 @@ function StoresPage() {
         }
         return result;
     }, [activeLetter, searchTerm, stores]);
+
+    if (loading) return <Loader fullScreen text="Loading stores..." />;
 
     return (
         <div className="bg-background min-h-screen">

@@ -1,11 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useGetAdminPagesQuery } from '../../store/api/adminEndpoints';
+import Loader from '../../components/Loader';
 
 const PageList = () => {
     const { data: pages = [], isLoading: loading } = useGetAdminPagesQuery();
 
-    if (loading) return <div className="p-8">Loading pages...</div>;
+    if (loading) return <Loader text="Loading pages..." className="p-8" />;
 
     return (
         <div className="p-8">

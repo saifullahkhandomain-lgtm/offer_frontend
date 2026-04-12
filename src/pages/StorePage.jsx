@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom'
 import CouponCard from '../components/CouponCard'
 import Breadcrumbs from '../components/Breadcrumbs'
 import Sidebar from '../components/Sidebar'
+import Loader from '../components/Loader'
 import { useGetStoreBySlugQuery, useGetCouponsByStoreQuery } from '../store/api/publicEndpoints'
 
 function StorePage() {
@@ -22,11 +23,7 @@ function StorePage() {
     }, [activeFilter, coupons]);
 
     if (loading) {
-        return (
-            <div className="min-h-screen bg-background flex items-center justify-center">
-                <div className="text-gray-400">Loading...</div>
-            </div>
-        );
+        return <Loader fullScreen text="Loading store..." />;
     }
 
     if (!store) {

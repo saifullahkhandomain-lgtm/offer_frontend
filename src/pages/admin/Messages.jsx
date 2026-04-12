@@ -2,6 +2,7 @@ import React from 'react';
 import { toast } from 'react-toastify';
 import { format } from 'date-fns';
 import { useGetMessagesQuery, useMarkMessageReadMutation, useDeleteMessageMutation } from '../../store/api/adminEndpoints';
+import Loader from '../../components/Loader';
 
 const Messages = () => {
     const { data: messages = [], isLoading: loading } = useGetMessagesQuery();
@@ -28,7 +29,7 @@ const Messages = () => {
         }
     };
 
-    if (loading) return <div className="p-8 text-center">Loading messages...</div>;
+    if (loading) return <Loader text="Loading messages..." className="p-8" />;
 
     return (
         <div className="p-6">

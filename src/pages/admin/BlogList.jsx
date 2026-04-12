@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useGetAdminBlogsQuery, useDeleteBlogMutation } from '../../store/api/adminEndpoints';
+import Loader from '../../components/Loader';
 
 const BlogList = () => {
     const { data: blogs = [], isLoading: loading } = useGetAdminBlogsQuery();
@@ -18,7 +19,7 @@ const BlogList = () => {
         }
     };
 
-    if (loading) return <div className="p-8">Loading...</div>;
+    if (loading) return <Loader text="Loading blog posts..." className="p-8" />;
 
     return (
         <div className="p-8">

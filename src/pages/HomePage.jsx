@@ -3,6 +3,7 @@ import { useGetCategoriesQuery } from "../store/api/publicEndpoints";
 
 import SEO from "../components/SEO";
 import Hero from "../components/Hero";
+import Loader from "../components/Loader";
 import StatsBar from "../components/StatsBar";
 import HowItWorks from "../components/HowItWorks";
 import FeaturedStores from "../components/FeaturedStores";
@@ -39,7 +40,7 @@ const CARD_ACCENTS = [
 ];
 
 function HomePage() {
-  const { data: categoriesData } = useGetCategoriesQuery();
+  const { data: categoriesData, isLoading: categoriesLoading } = useGetCategoriesQuery();
   const categories = Array.isArray(categoriesData) ? categoriesData.slice(0, 12) : [];
 
   return (
@@ -80,7 +81,9 @@ function HomePage() {
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 max-w-5xl mx-auto">
-            {categories.map((cat, i) => (
+            {categoriesLoading ? (
+              <div className="col-span-full"><Loader text="Loading categories..." /></div>
+            ) : categories.map((cat, i) => (
               <Link
                 key={cat._id || cat.name}
                 to={`/coupons?category=${encodeURIComponent(cat.name.toLowerCase())}`}

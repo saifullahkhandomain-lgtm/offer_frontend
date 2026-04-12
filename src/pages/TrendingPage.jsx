@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useMemo } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import CouponCard from '../components/CouponCard'
+import Loader from '../components/Loader'
 import { useGetCouponsQuery, useGetCategoriesQuery } from '../store/api/publicEndpoints'
 
 function TrendingPage() {
@@ -115,10 +116,7 @@ function TrendingPage() {
 
                 {/* Coupons Grid */}
                 {loading ? (
-                    <div className="text-center py-24">
-                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
-                        <p className="text-gray-500 mt-4">Loading trending coupons...</p>
-                    </div>
+                    <Loader text="Loading trending coupons..." className="py-24" />
                 ) : filteredCoupons.length > 0 ? (
                     <>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

@@ -1,16 +1,13 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { useGetCategoriesQuery } from '../store/api/publicEndpoints'
+import Loader from '../components/Loader'
 
 function CategoriesPage() {
     const { data: categories = [], isLoading: loading } = useGetCategoriesQuery();
 
     if (loading) {
-        return (
-            <div className="bg-background min-h-screen flex items-center justify-center">
-                <div className="text-gray-400">Loading categories...</div>
-            </div>
-        );
+        return <Loader fullScreen text="Loading categories..." />;
     }
 
     return (

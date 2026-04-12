@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useGetAdminStoresQuery, useDeleteStoreMutation } from '../../store/api/adminEndpoints';
+import Loader from '../../components/Loader';
 
 const Stores = () => {
     const { data: stores = [], isLoading: loading } = useGetAdminStoresQuery();
@@ -61,8 +62,8 @@ const Stores = () => {
                     <tbody>
                         {loading ? (
                             <tr>
-                                <td colSpan="5" className="px-6 py-8 text-center text-gray-500">
-                                    Loading...
+                                <td colSpan="5" className="px-6 py-8">
+                                    <Loader text="Loading stores..." />
                                 </td>
                             </tr>
                         ) : filteredStores.length === 0 ? (

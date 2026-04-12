@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
 import { useGetCouponsQuery } from "../store/api/publicEndpoints";
+import Loader from "./Loader";
 import CouponCard from "../components/CouponCard";
 
 const TrendingCoupons = () => {
-  const { data } = useGetCouponsQuery({ trending: true });
+  const { data, isLoading: loading } = useGetCouponsQuery({ trending: true });
   const trendingCoupons = data?.coupons || [];
 
   const overlayColors = [
@@ -32,7 +33,9 @@ const TrendingCoupons = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {trendingCoupons.map((coupon, index) => (
+          {loading ? (
+            <div className="col-span-full"><Loader text="Loading trending coupons..." /></div>
+          ) : trendingCoupons.map((coupon, index) => (
             <div key={coupon._id} className="relative">
               {/* Colored overlay background */}
               <div

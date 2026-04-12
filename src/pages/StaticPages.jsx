@@ -1,10 +1,11 @@
 import React from 'react';
 import { useGetPageBySlugQuery } from '../store/api/publicEndpoints';
+import Loader from '../components/Loader';
 
 const DynamicPage = ({ slug, defaultTitle }) => {
     const { data: page, isLoading: loading } = useGetPageBySlugQuery(slug);
 
-    if (loading) return <div className="min-h-screen pt-20 text-center text-gray-400">Loading content...</div>;
+    if (loading) return <Loader fullScreen text="Loading content..." />;
 
     const title = page?.title || defaultTitle;
     const content = page?.content || '<p>Content not available.</p>';

@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useGetPageBySlugQuery } from '../../store/api/publicEndpoints';
 import { useUpdatePageMutation } from '../../store/api/adminEndpoints';
+import Loader from '../../components/Loader';
 
 const PageEditor = () => {
     const { slug } = useParams();
@@ -28,7 +29,7 @@ const PageEditor = () => {
         }
     };
 
-    if (loading) return <div className="p-8">Loading editor...</div>;
+    if (loading) return <Loader text="Loading editor..." className="p-8" />;
 
     return (
         <div className="p-8">

@@ -23,7 +23,7 @@ const Dashboard = () => {
                         <div className="flex items-center justify-between mb-4">
                             <span className="text-4xl">{card.icon}</span>
                             <div className={`${card.color} w-12 h-12 rounded-lg flex items-center justify-center text-white text-2xl font-bold`}>
-                                {loading ? '...' : card.value}
+                                {loading ? <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div> : card.value}
                             </div>
                         </div>
                         <h3 className="text-gray-600 text-sm font-medium">{card.title}</h3>

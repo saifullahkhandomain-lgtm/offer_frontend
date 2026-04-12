@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
 import { useGetStoresQuery } from "../store/api/publicEndpoints";
+import Loader from "./Loader";
 import StoreCard from "./StoreCard";
 
 const FeaturedStores = () => {
-  const { data: allStores = [] } = useGetStoresQuery();
+  const { data: allStores = [], isLoading: loading } = useGetStoresQuery();
   const stores = Array.isArray(allStores) ? allStores.slice(0, 12) : [];
 
   return (
@@ -31,7 +32,9 @@ const FeaturedStores = () => {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-5">
-          {stores.map((store) => (
+          {loading ? (
+            <div className="col-span-full"><Loader text="Loading stores..." /></div>
+          ) : stores.map((store) => (
             <Link
               key={store._id || store.id}
               to={`/store/${store.name.toLowerCase().replace(/\s+/g, "-")}`}

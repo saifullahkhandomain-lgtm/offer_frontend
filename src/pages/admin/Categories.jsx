@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useGetAdminCategoriesQuery, useDeleteCategoryMutation } from '../../store/api/adminEndpoints';
+import Loader from '../../components/Loader';
 
 const Categories = () => {
     const { data: categories = [], isLoading: loading } = useGetAdminCategoriesQuery();
@@ -20,7 +21,7 @@ const Categories = () => {
     };
 
     if (loading) {
-        return <div className="p-8">Loading...</div>;
+        return <Loader text="Loading categories..." className="p-8" />;
     }
 
     return (

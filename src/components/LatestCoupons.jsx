@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import CouponCard from "./CouponCard";
+import Loader from "./Loader";
 import { useGetCouponsQuery } from "../store/api/publicEndpoints";
 
 const LatestCoupons = () => {
-  const { data } = useGetCouponsQuery({ limit: 20 });
+  const { data, isLoading: loading } = useGetCouponsQuery({ limit: 20 });
   const coupons = data?.coupons || [];
   const [filter, setFilter] = useState("All"); // All, Code, Deal
 
@@ -51,7 +52,9 @@ const LatestCoupons = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredCoupons.map((coupon) => (
+          {loading ? (
+            <div className="col-span-full"><Loader text="Loading coupons..." /></div>
+          ) : filteredCoupons.map((coupon) => (
             <CouponCard key={coupon._id} coupon={coupon} />
           ))}
         </div>

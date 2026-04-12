@@ -1,15 +1,11 @@
 import { Link } from "react-router-dom";
 import { useGetBlogsQuery } from "../store/api/publicEndpoints";
+import Loader from "../components/Loader";
 
 const BlogPage = () => {
   const { data: blogs = [], isLoading: loading } = useGetBlogsQuery();
 
-  if (loading)
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="text-xl text-gray-400">Loading articles...</div>
-      </div>
-    );
+  if (loading) return <Loader fullScreen text="Loading articles..." />;
 
   return (
     <div className="bg-gray-50 min-h-screen pb-20">

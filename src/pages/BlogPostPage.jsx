@@ -1,12 +1,13 @@
 import React from "react";
 import { useParams, Link } from "react-router-dom";
 import { useGetBlogBySlugQuery } from "../store/api/publicEndpoints";
+import Loader from "../components/Loader";
 
 const BlogPostPage = () => {
   const { slug } = useParams();
   const { data: blog, isLoading: loading, error } = useGetBlogBySlugQuery(slug);
 
-  if (loading || !blog) return <div className="min-h-screen bg-white"></div>;
+  if (loading || !blog) return <Loader fullScreen text="Loading article..." />;
   if (error)
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50">

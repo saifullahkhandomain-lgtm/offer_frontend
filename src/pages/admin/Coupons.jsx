@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useGetAdminCouponsQuery, useDeleteCouponMutation } from '../../store/api/adminEndpoints';
+import Loader from '../../components/Loader';
 
 const Coupons = () => {
     const { data: coupons = [], isLoading: loading } = useGetAdminCouponsQuery();
@@ -76,8 +77,8 @@ const Coupons = () => {
                     <tbody>
                         {loading ? (
                             <tr>
-                                <td colSpan="7" className="px-6 py-8 text-center text-gray-500">
-                                    Loading...
+                                <td colSpan="7" className="px-6 py-8">
+                                    <Loader text="Loading coupons..." />
                                 </td>
                             </tr>
                         ) : filteredCoupons.length === 0 ? (
