@@ -1,26 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
-import { API_URL } from '../config'
+import { useGetCategoriesQuery } from '../store/api/publicEndpoints'
 
 function CategoriesPage() {
-    const [categories, setCategories] = useState([]);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        fetchCategories();
-    }, []);
-
-    const fetchCategories = async () => {
-        try {
-            const response = await fetch(`${API_URL}/api/categories`);
-            const data = await response.json();
-            setCategories(data);
-            setLoading(false);
-        } catch (error) {
-            console.error('Failed to fetch categories:', error);
-            setLoading(false);
-        }
-    };
+    const { data: categories = [], isLoading: loading } = useGetCategoriesQuery();
 
     if (loading) {
         return (

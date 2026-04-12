@@ -1,36 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 import { toast } from 'react-toastify';
-import { API_URL } from '../../config';
+import { useGetAdminStoresQuery, useDeleteStoreMutation } from '../../store/api/adminEndpoints';
 
 const Stores = () => {
-    const [stores, setStores] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const { data: stores = [], isLoading: loading } = useGetAdminStoresQuery();
+    const [deleteStore] = useDeleteStoreMutation();
     const [search, setSearch] = useState('');
-
-    useEffect(() => {
-        fetchStores();
-    }, []);
-
-    const fetchStores = async () => {
-        try {
-            const response = await axios.get(`${API_URL}/api/admin/stores`);
-            setStores(response.data.data);
-        } catch (error) {
-            toast.error('Failed to fetch stores');
-        } finally {
-            setLoading(false);
-        }
-    };
 
     const handleDelete = async (id, name) => {
         if (!window.confirm(`Are you sure you want to delete "${name}"?`)) return;
 
         try {
-            await axios.delete(`${API_URL}/api/admin/stores/${id}`);
+            await deleteStore(id).unwrap();
             toast.success('Store deleted successfully');
-            fetchStores();
         } catch (error) {
             toast.error('Failed to delete store');
         }

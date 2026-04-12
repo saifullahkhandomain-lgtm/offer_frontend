@@ -1,37 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 import { toast } from 'react-toastify';
-import { API_URL } from '../../config';
+import { useGetAdminCouponsQuery, useDeleteCouponMutation } from '../../store/api/adminEndpoints';
 
 const Coupons = () => {
-    const [coupons, setCoupons] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const { data: coupons = [], isLoading: loading } = useGetAdminCouponsQuery();
+    const [deleteCoupon] = useDeleteCouponMutation();
     const [search, setSearch] = useState('');
     const [filterType, setFilterType] = useState('all');
-
-    useEffect(() => {
-        fetchCoupons();
-    }, []);
-
-    const fetchCoupons = async () => {
-        try {
-            const response = await axios.get(`${API_URL}/api/admin/coupons`);
-            setCoupons(response.data.data);
-        } catch (error) {
-            toast.error('Failed to fetch coupons');
-        } finally {
-            setLoading(false);
-        }
-    };
 
     const handleDelete = async (id, title) => {
         if (!window.confirm(`Are you sure you want to delete "${title}"?`)) return;
 
         try {
-            await axios.delete(`${API_URL}/api/admin/coupons/${id}`);
+            await deleteCoupon(id).unwrap();
             toast.success('Coupon deleted successfully');
-            fetchCoupons();
         } catch (error) {
             toast.error('Failed to delete coupon');
         }

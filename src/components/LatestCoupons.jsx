@@ -1,26 +1,12 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import CouponCard from "./CouponCard";
-import { API_URL } from "../config";
+import { useGetCouponsQuery } from "../store/api/publicEndpoints";
 
 const LatestCoupons = () => {
-  const [coupons, setCoupons] = useState([]);
+  const { data } = useGetCouponsQuery({ limit: 20 });
+  const coupons = data?.coupons || [];
   const [filter, setFilter] = useState("All"); // All, Code, Deal
-
-  useEffect(() => {
-    // Limit to 9 items for homepage
-    fetch(`${API_URL}/api/coupons?limit=20`)
-      .then((res) => res.json())
-      .then((data) => {
-        // Handle new response format { coupons: [], pagination: {} }
-        const items = data.coupons || data;
-        setCoupons(Array.isArray(items) ? items : []);
-      })
-      .catch((err) => {
-        console.error("Failed to fetch coupons:", err);
-        setCoupons([]); // Set empty array on error to prevent crashes
-      });
-  }, []);
 
   const filteredCoupons = coupons
     .filter((c) => {

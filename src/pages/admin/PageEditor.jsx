@@ -1,36 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { API_URL } from '../../config';
 import { toast } from 'react-toastify';
+import { useGetPageBySlugQuery } from '../../store/api/publicEndpoints';
+import { useUpdatePageMutation } from '../../store/api/adminEndpoints';
 
 const PageEditor = () => {
     const { slug } = useParams();
     const navigate = useNavigate();
-    const [page, setPage] = useState(null);
     const [content, setContent] = useState('');
-    const [loading, setLoading] = useState(true);
+
+    const { data: page, isLoading: loading } = useGetPageBySlugQuery(slug);
+    const [updatePage] = useUpdatePageMutation();
 
     useEffect(() => {
-        const fetchPage = async () => {
-            try {
-                // Ensure the page exists in DB first by calling the public GET (which is resilient) or admin list
-                // Here we can just call GET /api/pages/:slug
-                const response = await axios.get(`${API_URL}/api/pages/${slug}`);
-                setPage(response.data);
-                setContent(response.data.content);
-                setLoading(false);
-            } catch (error) {
-                toast.error('Failed to load page');
-                setLoading(false);
-            }
-        };
-        fetchPage();
-    }, [slug]);
+        if (page) {
+            setContent(page.content);
+        }
+    }, [page]);
 
     const handleSave = async () => {
         try {
-            await axios.put(`${API_URL}/api/pages/${slug}`, { content });
+            await updatePage({ slug, content }).unwrap();
             toast.success('Page updated successfully!');
             navigate('/admin/pages');
         } catch (error) {

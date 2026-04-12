@@ -1,24 +1,9 @@
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
-import { API_URL } from "../config";
+import { useGetSettingsQuery } from "../store/api/publicEndpoints";
 
 const TopBanner = () => {
-  const [socialLinks, setSocialLinks] = useState({});
-
-  useEffect(() => {
-    const fetchSettings = async () => {
-      try {
-        const res = await axios.get(`${API_URL}/api/settings`);
-        if (res.data && res.data.socialLinks) {
-          setSocialLinks(res.data.socialLinks);
-        }
-      } catch (error) {
-        console.error("Failed to fetch top banner settings");
-      }
-    };
-    fetchSettings();
-  }, []);
+  const { data: settings } = useGetSettingsQuery();
+  const socialLinks = settings?.socialLinks || {};
 
   const getActiveSocials = () => {
     const icons = {

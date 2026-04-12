@@ -1,25 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
-import { API_URL } from '../../config';
+import { useGetAdminPagesQuery } from '../../store/api/adminEndpoints';
 
 const PageList = () => {
-    const [pages, setPages] = useState([]);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        const fetchPages = async () => {
-            try {
-                const response = await axios.get(`${API_URL}/api/pages/admin/all`);
-                setPages(response.data);
-                setLoading(false);
-            } catch (error) {
-                console.error("Failed to fetch pages", error);
-                setLoading(false);
-            }
-        };
-        fetchPages();
-    }, []);
+    const { data: pages = [], isLoading: loading } = useGetAdminPagesQuery();
 
     if (loading) return <div className="p-8">Loading pages...</div>;
 

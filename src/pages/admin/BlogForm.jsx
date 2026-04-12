@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import axios from 'axios';
-import { API_URL } from '../../config';
 import { toast } from 'react-toastify';
+import { useGetAdminBlogByIdQuery, useCreateBlogMutation, useUpdateBlogMutation } from '../../store/api/adminEndpoints';
 
 const BlogForm = () => {
     const { id } = useParams();
@@ -17,26 +16,12 @@ const BlogForm = () => {
         isActive: true
     });
 
+    const { data: blog } = useGetAdminBlogByIdQuery(id, { skip: !id });
+    const [createBlog] = useCreateBlogMutation();
+    const [updateBlog] = useUpdateBlogMutation();
+
     useEffect(() => {
-        if (id) {
-            fetchBlog();
-        }
-    }, [id]);
-
-    const fetchBlog = async () => {
-        try {
-            const response = await axios.get(`${API_URL}/api/blogs/admin/${id}`, {
-                headers: { Authorization: `Bearer ${localStorage.getItem('adminToken')}` } // Enhance security if needed, or rely on global interceptor if it exists. 
-                // Assuming global interceptor or simple auth for now, but let's be safe and assume the protected route needs auth. 
-                // Wait, if no interceptor, we need to pass token. The 'protect' middleware checks for Bearer token.
-            });
-            // Actually, in Admin pages we usually rely on a configured axios instance or pass token. 
-            // Looking at other admin pages (e.g. `BlogList` line 17) it just does `axios.get`. 
-            // If `BlogList` works, there must be a global interceptor setting the token? 
-            // Let's check `context/AuthContext.js` or `main.jsx`. 
-            // For now, I will use the same pattern as `BlogList` but pointing to the new correct endpoint.
-
-            const blog = response.data;
+        if (blog) {
             setFormData({
                 title: blog.title,
                 content: blog.content,
@@ -45,11 +30,8 @@ const BlogForm = () => {
                 tags: blog.tags.join(', '),
                 isActive: blog.isActive
             });
-        } catch (error) {
-            console.error(error);
-            toast.error('Failed to fetch blog details');
         }
-    };
+    }, [blog]);
 
     const handleChange = (e) => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
@@ -78,15 +60,15 @@ const BlogForm = () => {
             };
 
             if (id) {
-                await axios.put(`${API_URL}/api/blogs/${id}`, payload);
+                await updateBlog({ id, ...payload }).unwrap();
                 toast.success('Blog updated successfully');
             } else {
-                await axios.post(`${API_URL}/api/blogs`, payload);
+                await createBlog(payload).unwrap();
                 toast.success('Blog created successfully');
             }
             navigate('/admin/blogs');
         } catch (error) {
-            toast.error(error.response?.data?.error || 'Failed to save blog');
+            toast.error(error.data?.error || 'Failed to save blog');
         } finally {
             setLoading(false);
         }

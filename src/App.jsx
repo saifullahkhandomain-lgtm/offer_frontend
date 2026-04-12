@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Routes, Route } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { AuthProvider } from './context/AuthContext'
+import { useGetMeQuery } from './store/api/adminEndpoints'
+import { setAdmin, logout, setLoading } from './store/slices/authSlice'
 import ProtectedRoute from './components/ProtectedRoute'
 
 // Public Pages
@@ -43,9 +45,25 @@ import DynamicPage from './pages/StaticPages'
 import { HelmetProvider } from 'react-helmet-async';
 
 function App() {
+  const dispatch = useDispatch();
+  const token = useSelector((state) => state.auth.token);
+  const { data: admin, error, isLoading } = useGetMeQuery(undefined, { skip: !token });
+
+  useEffect(() => {
+    if (!token) {
+      dispatch(setLoading(false));
+      return;
+    }
+    if (admin) {
+      dispatch(setAdmin(admin));
+    }
+    if (error) {
+      dispatch(logout());
+    }
+  }, [admin, error, token, dispatch]);
+
   return (
     <HelmetProvider>
-      <AuthProvider>
         <ToastContainer position="top-right" autoClose={3000} />
 
         <Routes>
@@ -101,7 +119,6 @@ function App() {
             </div>
           } />
         </Routes>
-      </AuthProvider>
     </HelmetProvider>
   )
 }

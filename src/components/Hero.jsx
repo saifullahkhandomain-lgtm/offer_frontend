@@ -1,67 +1,41 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { API_URL } from "../config";
+import { useGetStoresQuery, useGetCouponsQuery } from "../store/api/publicEndpoints";
 
 const Hero = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [suggestions, setSuggestions] = useState({ stores: [], coupons: [] });
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const [data, setData] = useState({ stores: [], coupons: [] });
   const navigate = useNavigate();
 
-  // Fetch stores and coupons for autocomplete
+  const { data: storesData } = useGetStoresQuery();
+  const { data: couponsData } = useGetCouponsQuery({ limit: 100 });
+
+  const storesArray = useMemo(() => Array.isArray(storesData) ? storesData : [], [storesData]);
+  const couponsArray = useMemo(() => couponsData?.coupons || [], [couponsData]);
+
+  const suggestions = useMemo(() => {
+    if (searchQuery.length === 0) return { stores: [], coupons: [] };
+    const query = searchQuery.toLowerCase();
+    const matchingStores = storesArray
+      .filter((store) => store.name.toLowerCase().includes(query))
+      .slice(0, 3);
+    const matchingCoupons = couponsArray
+      .filter(
+        (coupon) =>
+          coupon.title.toLowerCase().includes(query) ||
+          coupon.storeName.toLowerCase().includes(query),
+      )
+      .slice(0, 3);
+    return { stores: matchingStores, coupons: matchingCoupons };
+  }, [searchQuery, storesArray, couponsArray]);
+
   React.useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [storesRes, couponsRes] = await Promise.all([
-          fetch(`${API_URL}/api/stores`),
-          fetch(`${API_URL}/api/coupons?limit=100`), // Get more for search
-        ]);
-
-        const stores = await storesRes.json();
-        const couponsData = await couponsRes.json();
-
-        // Handle new response format { coupons: [], pagination: {} }
-        const coupons = couponsData.coupons || couponsData;
-        const storesArray = Array.isArray(stores) ? stores : [];
-        const couponsArray = Array.isArray(coupons) ? coupons : [];
-
-        setData({ stores: storesArray, coupons: couponsArray });
-      } catch (error) {
-        console.error("Error fetching search data:", error);
-        setData({ stores: [], coupons: [] }); // Set empty on error
-      }
-    };
-    fetchData();
-  }, []);
-
-  // Filter suggestions as user types
-  React.useEffect(() => {
-    if (searchQuery.length > 0) {
-      const query = searchQuery.toLowerCase();
-
-      const matchingStores = data.stores
-        .filter((store) => store.name.toLowerCase().includes(query))
-        .slice(0, 3);
-
-      const matchingCoupons = data.coupons
-        .filter(
-          (coupon) =>
-            coupon.title.toLowerCase().includes(query) ||
-            coupon.storeName.toLowerCase().includes(query),
-        )
-        .slice(0, 3);
-
-      if (matchingStores.length > 0 || matchingCoupons.length > 0) {
-        setSuggestions({ stores: matchingStores, coupons: matchingCoupons });
-        setShowSuggestions(true);
-      } else {
-        setShowSuggestions(false);
-      }
+    if (searchQuery.length > 0 && (suggestions.stores.length > 0 || suggestions.coupons.length > 0)) {
+      setShowSuggestions(true);
     } else {
       setShowSuggestions(false);
     }
-  }, [searchQuery, data]);
+  }, [searchQuery, suggestions]);
 
   const handleSearch = (e) => {
     e.preventDefault();

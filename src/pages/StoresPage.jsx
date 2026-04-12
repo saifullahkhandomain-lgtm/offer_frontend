@@ -1,26 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import { API_URL } from '../config';
+import { useGetStoresQuery } from '../store/api/publicEndpoints';
 import StoreCard from '../components/StoreCard'
 
 function StoresPage() {
-    const [stores, setStores] = useState([]);
-    const [filteredStores, setFilteredStores] = useState([]);
+    const { data: storesData = [] } = useGetStoresQuery();
+    const stores = Array.isArray(storesData) ? storesData : [];
     const [activeLetter, setActiveLetter] = useState('All');
     const [searchTerm, setSearchTerm] = useState('');
     const [searchParams] = useSearchParams();
 
     const alphabet = ['All', ...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')];
-
-    useEffect(() => {
-        fetch(`${API_URL}/api/stores`)
-            .then(res => res.json())
-            .then(data => {
-                setStores(data);
-                setFilteredStores(data);
-            })
-            .catch(err => console.error('Failed to fetch stores:', err));
-    }, []);
 
     // Handle URL search param
     useEffect(() => {
@@ -30,22 +20,19 @@ function StoresPage() {
         }
     }, [searchParams]);
 
-    useEffect(() => {
+    const filteredStores = useMemo(() => {
         let result = stores;
-
         if (activeLetter !== 'All') {
             result = result.filter(store =>
                 store.name.toUpperCase().startsWith(activeLetter)
             );
         }
-
         if (searchTerm) {
             result = result.filter(store =>
                 store.name.toLowerCase().includes(searchTerm.toLowerCase())
             );
         }
-
-        setFilteredStores(result);
+        return result;
     }, [activeLetter, searchTerm, stores]);
 
     return (

@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import axios from 'axios';
-import { API_URL } from '../../config';
 import { toast } from 'react-toastify';
+import { useGetAdminCategoriesQuery, useCreateCategoryMutation, useUpdateCategoryMutation } from '../../store/api/adminEndpoints';
 
 const CategoryForm = () => {
     const { id } = useParams();
@@ -12,23 +11,19 @@ const CategoryForm = () => {
         name: '',
         icon: '📁',
         image: '',
-        imageType: 'emoji', // emoji, url, upload
+        imageType: 'emoji',
         color: '#3B82F6',
         isActive: true
     });
 
-    useEffect(() => {
-        if (id) {
-            fetchCategory();
-        }
-    }, [id]);
+    const { data: categories = [] } = useGetAdminCategoriesQuery(undefined, { skip: !id });
+    const [createCategory] = useCreateCategoryMutation();
+    const [updateCategory] = useUpdateCategoryMutation();
 
-    const fetchCategory = async () => {
-        try {
-            const response = await axios.get(`${API_URL}/api/admin/categories`);
-            const category = response.data.find(c => c._id === id);
+    useEffect(() => {
+        if (id && categories.length > 0) {
+            const category = categories.find(c => c._id === id);
             if (category) {
-                // Backward compatibility for old categories
                 setFormData({
                     ...category,
                     imageType: category.imageType || 'emoji',
@@ -36,10 +31,8 @@ const CategoryForm = () => {
                     icon: category.icon || '📁'
                 });
             }
-        } catch (error) {
-            toast.error('Failed to fetch category');
         }
-    };
+    }, [id, categories]);
 
     const handleChange = (e) => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
@@ -70,7 +63,7 @@ const CategoryForm = () => {
         try {
             const payload = { ...formData };
             if (payload.imageType === 'emoji') {
-                payload.icon = payload.icon || '📁'; // Ensure icon is set if emoji type
+                payload.icon = payload.icon || '📁';
             }
             if (payload.imageType === 'upload' && !payload.image) {
                 console.warn("Upload selected but no image content present");
@@ -79,16 +72,16 @@ const CategoryForm = () => {
             console.log("Sending payload:", payload);
 
             if (id) {
-                await axios.put(`${API_URL}/api/admin/categories/${id}`, payload);
+                await updateCategory({ id, ...payload }).unwrap();
                 toast.success('Category updated successfully');
             } else {
-                await axios.post(`${API_URL}/api/admin/categories`, payload);
+                await createCategory(payload).unwrap();
                 toast.success('Category created successfully');
             }
             navigate('/admin/categories');
         } catch (error) {
             console.error("Submission error:", error);
-            toast.error(error.response?.data?.error || 'Failed to save category');
+            toast.error(error.data?.error || 'Failed to save category');
         } finally {
             setLoading(false);
         }

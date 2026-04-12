@@ -1,30 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useParams, Link } from "react-router-dom";
-import axios from "axios";
-import { API_URL } from "../config";
+import { useGetBlogBySlugQuery } from "../store/api/publicEndpoints";
 
 const BlogPostPage = () => {
   const { slug } = useParams();
-  const [blog, setBlog] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { data: blog, isLoading: loading, error } = useGetBlogBySlugQuery(slug);
 
-  useEffect(() => {
-    const fetchBlog = async () => {
-      try {
-        const response = await axios.get(`${API_URL}/api/blogs/${slug}`);
-        setBlog(response.data);
-        setLoading(false);
-      } catch (error) {
-        console.error("Failed to fetch blog post", error);
-        setError("Article not found");
-        setLoading(false);
-      }
-    };
-    fetchBlog();
-  }, [slug]);
-
-  if (loading) return <div className="min-h-screen bg-white"></div>;
+  if (loading || !blog) return <div className="min-h-screen bg-white"></div>;
   if (error)
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50">

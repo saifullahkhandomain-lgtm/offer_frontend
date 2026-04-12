@@ -1,23 +1,10 @@
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { API_URL } from "../config";
+import { useGetStoresQuery } from "../store/api/publicEndpoints";
 import StoreCard from "./StoreCard";
 
 const FeaturedStores = () => {
-  const [stores, setStores] = useState([]);
-
-  useEffect(() => {
-    fetch(`${API_URL}/api/stores`)
-      .then((res) => res.json())
-      .then((data) => {
-        const items = Array.isArray(data) ? data : [];
-        setStores(items.slice(0, 12));
-      })
-      .catch((err) => {
-        console.error("Failed to fetch stores:", err);
-        setStores([]);
-      });
-  }, []);
+  const { data: allStores = [] } = useGetStoresQuery();
+  const stores = Array.isArray(allStores) ? allStores.slice(0, 12) : [];
 
   return (
     <section className="bg-white py-20 border-t border-gray-50 relative overflow-hidden">

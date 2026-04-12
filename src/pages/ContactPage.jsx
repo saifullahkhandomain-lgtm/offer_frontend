@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { API_URL } from "../config";
 import { toast } from "react-toastify";
+import { useSendMessageMutation } from "../store/api/publicEndpoints";
 
 const ContactPage = () => {
   const [formData, setFormData] = useState({
@@ -9,7 +9,7 @@ const ContactPage = () => {
     subject: "",
     message: "",
   });
-  const [loading, setLoading] = useState(false);
+  const [sendMessage, { isLoading: loading }] = useSendMessageMutation();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -17,29 +17,13 @@ const ContactPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
 
     try {
-      const res = await fetch(`${API_URL}/api/messages`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await res.json();
-
-      if (res.ok) {
-        toast.success("Message sent successfully!");
-        setFormData({ name: "", email: "", subject: "", message: "" });
-      } else {
-        toast.error(data.error || "Failed to send message");
-      }
+      await sendMessage(formData).unwrap();
+      toast.success("Message sent successfully!");
+      setFormData({ name: "", email: "", subject: "", message: "" });
     } catch (error) {
-      toast.error("Something went wrong. Please try again.");
-    } finally {
-      setLoading(false);
+      toast.error(error?.data?.error || "Something went wrong. Please try again.");
     }
   };
 

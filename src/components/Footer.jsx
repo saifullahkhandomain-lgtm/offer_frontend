@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
-import { API_URL } from "../config";
+import { useGetSettingsQuery, useGetCategoriesQuery } from "../store/api/publicEndpoints";
 import {
   FaFacebook,
   FaInstagram,
@@ -12,49 +11,17 @@ import {
 } from "react-icons/fa";
 
 const Footer = () => {
-  const [socialLinks, setSocialLinks] = useState({
-    facebook: "",
-    instagram: "",
-    twitter: "",
-    youtube: "",
-    tiktok: "",
-    linkedin: "",
-  });
+  const { data: settings } = useGetSettingsQuery();
+  const { data: categoriesData } = useGetCategoriesQuery();
 
-  const [favoriteCategories, setFavoriteCategories] = useState([]);
-
-  useEffect(() => {
-    fetchSettings();
-    fetchCategories();
-  }, []);
-
-  const fetchSettings = async () => {
-    try {
-      const res = await axios.get(`${API_URL}/api/settings`);
-      if (res.data && res.data.socialLinks) {
-        setSocialLinks(res.data.socialLinks);
-      }
-    } catch (error) {
-      console.error("Failed to fetch footer settings");
-    }
-  };
-
-  const fetchCategories = async () => {
-    try {
-      const res = await axios.get(`${API_URL}/api/categories`);
-      // Take first 5 categories if array exists
-      if (Array.isArray(res.data)) {
-        const categories = res.data.slice(0, 5).map((cat) => ({
-          name: cat.name,
-          href: `/coupons?category=${encodeURIComponent(cat.name.toLowerCase())}`,
-        }));
-        setFavoriteCategories(categories);
-      }
-    } catch (error) {
-      console.error("Failed to fetch categories");
-      setFavoriteCategories([]); // Set empty on error
-    }
-  };
+  const socialLinks = settings?.socialLinks || {};
+  const favoriteCategories = useMemo(() => {
+    if (!Array.isArray(categoriesData)) return [];
+    return categoriesData.slice(0, 5).map((cat) => ({
+      name: cat.name,
+      href: `/coupons?category=${encodeURIComponent(cat.name.toLowerCase())}`,
+    }));
+  }, [categoriesData]);
 
   const siteLinks = [
     { name: "Home", href: "/" },

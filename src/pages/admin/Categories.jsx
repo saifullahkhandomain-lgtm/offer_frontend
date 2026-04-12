@@ -1,36 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { API_URL } from '../../config';
 import { toast } from 'react-toastify';
+import { useGetAdminCategoriesQuery, useDeleteCategoryMutation } from '../../store/api/adminEndpoints';
 
 const Categories = () => {
-    const [categories, setCategories] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const { data: categories = [], isLoading: loading } = useGetAdminCategoriesQuery();
+    const [deleteCategory] = useDeleteCategoryMutation();
     const navigate = useNavigate();
-
-    useEffect(() => {
-        fetchCategories();
-    }, []);
-
-    const fetchCategories = async () => {
-        try {
-            const response = await axios.get(`${API_URL}/api/admin/categories`);
-            setCategories(response.data);
-        } catch (error) {
-            toast.error('Failed to fetch categories');
-        } finally {
-            setLoading(false);
-        }
-    };
 
     const handleDelete = async (id) => {
         if (!window.confirm('Are you sure you want to delete this category?')) return;
 
         try {
-            await axios.delete(`${API_URL}/api/admin/categories/${id}`);
+            await deleteCategory(id).unwrap();
             toast.success('Category deleted successfully');
-            fetchCategories();
         } catch (error) {
             toast.error('Failed to delete category');
         }

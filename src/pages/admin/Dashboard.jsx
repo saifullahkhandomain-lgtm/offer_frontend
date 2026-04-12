@@ -1,31 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
-import { API_URL } from '../../config';
+import { useGetStatsQuery } from '../../store/api/adminEndpoints';
 
 const Dashboard = () => {
-    const [stats, setStats] = useState({
-        totalStores: 0,
-        totalCoupons: 0,
-        activeCoupons: 0,
-        expiredCoupons: 0
-    });
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        fetchStats();
-    }, []);
-
-    const fetchStats = async () => {
-        try {
-            const response = await axios.get(`${API_URL}/api/admin/stats`);
-            setStats(response.data.data);
-        } catch (error) {
-            console.error('Failed to fetch stats:', error);
-        } finally {
-            setLoading(false);
-        }
-    };
+    const { data: stats = { totalStores: 0, totalCoupons: 0, activeCoupons: 0, expiredCoupons: 0 }, isLoading: loading } = useGetStatsQuery();
 
     const statCards = [
         { title: 'Total Stores', value: stats.totalStores, icon: '🏪', color: 'bg-blue-500' },

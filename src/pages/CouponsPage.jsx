@@ -1,22 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import CouponCard from '../components/CouponCard'
-import { API_URL } from '../config'
+import { useGetCouponsQuery, useGetCategoriesQuery } from '../store/api/publicEndpoints'
 
 function CouponsPage() {
-    const [coupons, setCoupons] = useState([]);
-    const [filteredCoupons, setFilteredCoupons] = useState([]);
     const [activeFilter, setActiveFilter] = useState('All');
     const [searchTerm, setSearchTerm] = useState('');
     const [searchParams] = useSearchParams();
-
-    // Pagination State
-    const [loading, setLoading] = useState(false);
     const [page, setPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
     const LIMIT = 12;
-
-    const [categories, setCategories] = useState(['All']);
 
     useEffect(() => {
         const urlSearch = searchParams.get('search');
@@ -31,82 +23,42 @@ function CouponsPage() {
     }, [searchParams]);
 
     // Fetch Categories
-    useEffect(() => {
-        fetch(`${API_URL}/api/categories`)
-            .then(res => res.json())
-            .then(data => {
-                if (Array.isArray(data)) {
-                    const categoryNames = ['All', ...data.map(c => c.name)];
-                    setCategories(categoryNames);
-                }
-            })
-            .catch(err => console.error('Failed to fetch categories:', err));
-    }, []);
+    const { data: categoriesData } = useGetCategoriesQuery();
+    const categories = useMemo(() => {
+        if (!Array.isArray(categoriesData)) return ['All'];
+        return ['All', ...categoriesData.map(c => c.name)];
+    }, [categoriesData]);
 
-    // Reset pagination when filters change
+    // Build query args
+    const queryArgs = useMemo(() => ({
+        page,
+        limit: LIMIT,
+        ...(activeFilter !== 'All' && { category: activeFilter }),
+        ...(searchTerm && { search: searchTerm }),
+    }), [page, activeFilter, searchTerm]);
+
+    const { data, isLoading: loading, isFetching } = useGetCouponsQuery(queryArgs);
+    const filteredCoupons = data?.coupons || [];
+    const totalPages = data?.pagination?.totalPages || 1;
+
+    // Scroll to top when data changes
     useEffect(() => {
-        setCoupons([]);
-        setFilteredCoupons([]);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, [page, activeFilter, searchTerm]);
+
+    const handleFilterChange = (cat) => {
+        setActiveFilter(cat);
         setPage(1);
-        fetchCoupons(1);
-    }, [activeFilter, searchTerm]);
+    };
 
-    const fetchCoupons = (pageNum) => {
-        setLoading(true);
-
-        // Always request with pagination params, but handle legacy array response
-        let query = `${API_URL}/api/coupons?page=${pageNum}&limit=${LIMIT}`;
-
-        if (activeFilter !== 'All') {
-            query += `&category=${encodeURIComponent(activeFilter)}`;
-        }
-        if (searchTerm) {
-            query += `&search=${encodeURIComponent(searchTerm)}`;
-        }
-
-        fetch(query)
-            .then(res => res.json())
-            .then(data => {
-                let items = [];
-                let total = 0;
-                let calculatedTotalPages = 1;
-
-                if (Array.isArray(data)) {
-                    // Legacy/Fallback: Backend returned all items (array)
-                    // We must paginate client-side
-                    total = data.length;
-                    calculatedTotalPages = Math.ceil(total / LIMIT);
-
-                    // Slice for current page
-                    const startIndex = (pageNum - 1) * LIMIT;
-                    const endIndex = startIndex + LIMIT;
-                    items = data.slice(startIndex, endIndex);
-                } else {
-                    // New Format: Backend handled pagination
-                    items = data.coupons || [];
-                    const meta = data.pagination || {};
-                    total = meta.total || 0;
-                    calculatedTotalPages = meta.totalPages || 1;
-                }
-
-                setCoupons(items);
-                setFilteredCoupons(items);
-                setTotalPages(calculatedTotalPages);
-                setLoading(false);
-
-                // Scroll to top of grid
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            })
-            .catch(err => {
-                console.error('Failed to fetch coupons:', err);
-                setLoading(false);
-            });
+    const handleSearchChange = (e) => {
+        setSearchTerm(e.target.value);
+        setPage(1);
     };
 
     const handlePageChange = (newPage) => {
         if (newPage >= 1 && newPage <= totalPages) {
             setPage(newPage);
-            fetchCoupons(newPage);
         }
     };
 
@@ -127,14 +79,14 @@ function CouponsPage() {
                         type="text"
                         placeholder="Search coupons..."
                         value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
+                        onChange={handleSearchChange}
                         className="flex-grow h-12 px-6 rounded-lg border border-gray-200 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 shadow-sm"
                     />
                     <div className="flex flex-wrap gap-2">
                         {categories.map((cat) => (
                             <button
                                 key={cat}
-                                onClick={() => setActiveFilter(cat)}
+                                onClick={() => handleFilterChange(cat)}
                                 className={`px-5 py-2 rounded-full font-medium text-sm transition-all ${activeFilter === cat
                                     ? 'bg-primary text-white shadow-md'
                                     : 'bg-white text-gray-600 border border-gray-200 hover:border-primary hover:text-primary'

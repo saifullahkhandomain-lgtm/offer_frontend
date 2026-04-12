@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { API_URL } from '../../config';
 import { toast } from 'react-toastify';
 import { useAuth } from '../../context/AuthContext';
+import { useGetSettingsQuery } from '../../store/api/publicEndpoints';
+import { useUpdateSettingsMutation, useUpdateProfileMutation, useUpdatePasswordMutation } from '../../store/api/adminEndpoints';
 
 const Settings = () => {
-    const { token, user } = useAuth();
+    const { user } = useAuth();
 
     // --- Profile & Social Media State ---
     const [profileData, setProfileData] = useState({
@@ -34,24 +34,23 @@ const Settings = () => {
     const [loadingLinks, setLoadingLinks] = useState(false);
     const [loadingPassword, setLoadingPassword] = useState(false);
 
+    const { data: settings } = useGetSettingsQuery();
+    const [updateProfile] = useUpdateProfileMutation();
+    const [updateSettings] = useUpdateSettingsMutation();
+    const [updatePassword] = useUpdatePasswordMutation();
+
     // Fetch initial settings
     useEffect(() => {
         if (user) {
             setProfileData(prev => ({ ...prev, name: user.name, email: user.email }));
         }
-        fetchSettings();
     }, [user]);
 
-    const fetchSettings = async () => {
-        try {
-            const res = await axios.get(`${API_URL}/api/settings`);
-            if (res.data && res.data.socialLinks) {
-                setSocialLinks(prev => ({ ...prev, ...res.data.socialLinks }));
-            }
-        } catch (error) {
-            console.error('Failed to fetch settings', error);
+    useEffect(() => {
+        if (settings && settings.socialLinks) {
+            setSocialLinks(prev => ({ ...prev, ...settings.socialLinks }));
         }
-    };
+    }, [settings]);
 
     // --- Handlers ---
     const handleProfileChange = (e) => setProfileData({ ...profileData, [e.target.name]: e.target.value });
@@ -63,19 +62,15 @@ const Settings = () => {
         e.preventDefault();
         setLoadingProfile(true);
         try {
-            await axios.put(
-                `${API_URL}/api/auth/update-profile`,
-                {
-                    name: profileData.name,
-                    email: profileData.email,
-                    currentPassword: profileData.currentPasswordProfile
-                },
-                { headers: { Authorization: `Bearer ${token}` } }
-            );
+            await updateProfile({
+                name: profileData.name,
+                email: profileData.email,
+                currentPassword: profileData.currentPasswordProfile
+            }).unwrap();
             toast.success('Profile updated! Re-login if email changed.');
             setProfileData(prev => ({ ...prev, currentPasswordProfile: '' }));
         } catch (error) {
-            toast.error(error.response?.data?.error || 'Failed to update profile');
+            toast.error(error.data?.error || 'Failed to update profile');
         } finally {
             setLoadingProfile(false);
         }
@@ -86,14 +81,10 @@ const Settings = () => {
         e.preventDefault();
         setLoadingLinks(true);
         try {
-            await axios.put(
-                `${API_URL}/api/settings`,
-                { socialLinks },
-                { headers: { Authorization: `Bearer ${token}` } }
-            );
+            await updateSettings({ socialLinks }).unwrap();
             toast.success('Social media links updated!');
         } catch (error) {
-            toast.error(error.response?.data?.error || 'Failed to update links');
+            toast.error(error.data?.error || 'Failed to update links');
         } finally {
             setLoadingLinks(false);
         }
@@ -111,18 +102,14 @@ const Settings = () => {
 
         setLoadingPassword(true);
         try {
-            await axios.put(
-                `${API_URL}/api/auth/update-password`,
-                {
-                    currentPassword: passwordData.currentPassword,
-                    newPassword: passwordData.newPassword
-                },
-                { headers: { Authorization: `Bearer ${token}` } }
-            );
+            await updatePassword({
+                currentPassword: passwordData.currentPassword,
+                newPassword: passwordData.newPassword
+            }).unwrap();
             toast.success('Password updated successfully');
             setPasswordData({ currentPassword: '', newPassword: '', confirmPassword: '' });
         } catch (error) {
-            toast.error(error.response?.data?.error || 'Failed to update password');
+            toast.error(error.data?.error || 'Failed to update password');
         } finally {
             setLoadingPassword(false);
         }

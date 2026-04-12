@@ -1,25 +1,8 @@
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
-import { API_URL } from "../config";
+import { useGetBlogsQuery } from "../store/api/publicEndpoints";
 
 const BlogPage = () => {
-  const [blogs, setBlogs] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchBlogs = async () => {
-      try {
-        const response = await axios.get(`${API_URL}/api/blogs`);
-        setBlogs(response.data.blogs || []);
-        setLoading(false);
-      } catch (error) {
-        console.error("Failed to fetch blogs", error);
-        setLoading(false);
-      }
-    };
-    fetchBlogs();
-  }, []);
+  const { data: blogs = [], isLoading: loading } = useGetBlogsQuery();
 
   if (loading)
     return (

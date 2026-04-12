@@ -1,60 +1,24 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import CouponCard from '../components/CouponCard'
 import Breadcrumbs from '../components/Breadcrumbs'
 import Sidebar from '../components/Sidebar'
-import { API_URL } from '../config'
+import { useGetStoreBySlugQuery, useGetCouponsByStoreQuery } from '../store/api/publicEndpoints'
 
 function StorePage() {
     const { slug } = useParams();
-    const [store, setStore] = useState(null);
-    const [coupons, setCoupons] = useState([]);
-    const [filteredCoupons, setFilteredCoupons] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const { data: store, isLoading: storeLoading } = useGetStoreBySlugQuery(slug);
+    const { data: coupons = [], isLoading: couponsLoading } = useGetCouponsByStoreQuery(slug, { skip: !store });
     const [activeFilter, setActiveFilter] = useState('All');
 
     const filterTabs = ['All', 'Codes', 'Sales'];
+    const loading = storeLoading || couponsLoading;
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                setLoading(true);
-
-                // Fetch store details directly by slug
-                const storeRes = await fetch(`${API_URL}/api/stores/${slug}`);
-                if (!storeRes.ok) {
-                    throw new Error('Store not found');
-                }
-                const foundStore = await storeRes.json();
-                setStore(foundStore);
-
-                if (foundStore) {
-                    // Fetch coupons for this store
-                    const couponsRes = await fetch(`${API_URL}/api/coupons/store/${slug}`);
-                    const storeCoupons = await couponsRes.json();
-
-                    setCoupons(storeCoupons);
-                    setFilteredCoupons(storeCoupons);
-                }
-            } catch (error) {
-                console.error('Error fetching store data:', error);
-                setStore(null);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchData();
-    }, [slug]);
-
-    useEffect(() => {
-        if (activeFilter === 'All') {
-            setFilteredCoupons(coupons);
-        } else if (activeFilter === 'Codes') {
-            setFilteredCoupons(coupons.filter(c => c.type === 'Code'));
-        } else if (activeFilter === 'Sales') {
-            setFilteredCoupons(coupons.filter(c => c.type === 'Deal'));
-        }
+    const filteredCoupons = useMemo(() => {
+        if (activeFilter === 'All') return coupons;
+        if (activeFilter === 'Codes') return coupons.filter(c => c.type === 'Code');
+        if (activeFilter === 'Sales') return coupons.filter(c => c.type === 'Deal');
+        return coupons;
     }, [activeFilter, coupons]);
 
     if (loading) {

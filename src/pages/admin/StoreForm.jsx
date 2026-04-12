@@ -1,14 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
-import { API_URL } from "../../config";
 import { toast } from "react-toastify";
+import { useGetStoresQuery, useGetCategoriesQuery } from "../../store/api/publicEndpoints";
+import { useCreateStoreMutation, useUpdateStoreMutation } from "../../store/api/adminEndpoints";
 
 const StoreForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
-  const [categories, setCategories] = useState([]);
+  const [createStore, { isLoading: creating }] = useCreateStoreMutation();
+  const [updateStore, { isLoading: updating }] = useUpdateStoreMutation();
+  const loading = creating || updating;
+
+  const { data: categoriesData = [] } = useGetCategoriesQuery();
+  const categories = Array.isArray(categoriesData) ? categoriesData : [];
+
+  const { data: storesData = [] } = useGetStoresQuery(undefined, { skip: !id });
+
   const [formData, setFormData] = useState({
     name: "",
     logo: "",
@@ -20,32 +27,13 @@ const StoreForm = () => {
   });
 
   useEffect(() => {
-    fetchCategories();
-    if (id) {
-      fetchStore();
-    }
-  }, [id]);
-
-  const fetchCategories = async () => {
-    try {
-      const response = await axios.get(`${API_URL}/api/categories`);
-      setCategories(response.data);
-    } catch (error) {
-      console.error("Failed to fetch categories");
-    }
-  };
-
-  const fetchStore = async () => {
-    try {
-      const response = await axios.get(`${API_URL}/api/stores`);
-      const store = response.data.find((s) => s._id === id);
+    if (id && Array.isArray(storesData)) {
+      const store = storesData.find((s) => s._id === id);
       if (store) {
         setFormData(store);
       }
-    } catch (error) {
-      toast.error("Failed to fetch store");
     }
-  };
+  }, [id, storesData]);
 
   const handleChange = (e) => {
     setFormData({
@@ -122,21 +110,18 @@ const StoreForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
 
     try {
       if (id) {
-        await axios.put(`${API_URL}/api/admin/stores/${id}`, formData);
+        await updateStore({ id, ...formData }).unwrap();
         toast.success("Store updated successfully");
       } else {
-        await axios.post(`${API_URL}/api/admin/stores`, formData);
+        await createStore(formData).unwrap();
         toast.success("Store created successfully");
       }
       navigate("/admin/stores");
     } catch (error) {
-      toast.error(error.response?.data?.error || "Failed to save store");
-    } finally {
-      setLoading(false);
+      toast.error(error?.data?.error || "Failed to save store");
     }
   };
 

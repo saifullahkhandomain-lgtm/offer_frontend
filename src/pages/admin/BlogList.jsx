@@ -1,34 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
-import { API_URL } from '../../config';
 import { toast } from 'react-toastify';
+import { useGetAdminBlogsQuery, useDeleteBlogMutation } from '../../store/api/adminEndpoints';
 
 const BlogList = () => {
-    const [blogs, setBlogs] = useState([]);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        fetchBlogs();
-    }, []);
-
-    const fetchBlogs = async () => {
-        try {
-            const response = await axios.get(`${API_URL}/api/blogs/admin/all`);
-            setBlogs(response.data);
-            setLoading(false);
-        } catch (error) {
-            toast.error('Failed to fetch blogs');
-            setLoading(false);
-        }
-    };
+    const { data: blogs = [], isLoading: loading } = useGetAdminBlogsQuery();
+    const [deleteBlog] = useDeleteBlogMutation();
 
     const handleDelete = async (id) => {
         if (window.confirm('Are you sure you want to delete this blog post?')) {
             try {
-                await axios.delete(`${API_URL}/api/blogs/${id}`);
+                await deleteBlog(id).unwrap();
                 toast.success('Blog deleted successfully');
-                fetchBlogs();
             } catch (error) {
                 toast.error('Failed to delete blog');
             }

@@ -1,6 +1,5 @@
-import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { API_URL } from "../config";
+import { useGetCategoriesQuery } from "../store/api/publicEndpoints";
 
 import SEO from "../components/SEO";
 import Hero from "../components/Hero";
@@ -40,16 +39,8 @@ const CARD_ACCENTS = [
 ];
 
 function HomePage() {
-  const [categories, setCategories] = useState([]);
-
-  useEffect(() => {
-    fetch(`${API_URL}/api/categories`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (Array.isArray(data)) setCategories(data.slice(0, 12));
-      })
-      .catch(() => setCategories([]));
-  }, []);
+  const { data: categoriesData } = useGetCategoriesQuery();
+  const categories = Array.isArray(categoriesData) ? categoriesData.slice(0, 12) : [];
 
   return (
     <>

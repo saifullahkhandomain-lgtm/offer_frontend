@@ -1,24 +1,10 @@
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { API_URL } from "../config";
+import { useGetCouponsQuery } from "../store/api/publicEndpoints";
 import CouponCard from "../components/CouponCard";
 
 const TrendingCoupons = () => {
-  const [trendingCoupons, setTrendingCoupons] = useState([]);
-
-  useEffect(() => {
-    fetch(`${API_URL}/api/coupons?trending=true`)
-      .then((res) => res.json())
-      .then((data) => {
-        // Handle new response format { coupons: [], pagination: {} }
-        const items = data.coupons || data;
-        setTrendingCoupons(Array.isArray(items) ? items : []);
-      })
-      .catch((err) => {
-        console.error("Failed to fetch trending coupons:", err);
-        setTrendingCoupons([]); // Set empty array on error
-      });
-  }, []);
+  const { data } = useGetCouponsQuery({ trending: true });
+  const trendingCoupons = data?.coupons || [];
 
   const overlayColors = [
     "from-violet-400/20 to-violet-600/20",

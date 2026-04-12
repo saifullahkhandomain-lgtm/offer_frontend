@@ -1,41 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { API_URL } from '../../config';
+import React from 'react';
 import { toast } from 'react-toastify';
 import { format } from 'date-fns';
+import { useGetMessagesQuery, useMarkMessageReadMutation, useDeleteMessageMutation } from '../../store/api/adminEndpoints';
 
 const Messages = () => {
-    const [messages, setMessages] = useState([]);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        fetchMessages();
-    }, []);
-
-    const fetchMessages = async () => {
-        try {
-            const token = localStorage.getItem('adminToken');
-            const res = await axios.get(`${API_URL}/api/messages`, {
-                headers: { Authorization: `Bearer ${token}` }
-            });
-            setMessages(res.data);
-        } catch (error) {
-            toast.error('Failed to load messages');
-        } finally {
-            setLoading(false);
-        }
-    };
+    const { data: messages = [], isLoading: loading } = useGetMessagesQuery();
+    const [markMessageRead] = useMarkMessageReadMutation();
+    const [deleteMessage] = useDeleteMessageMutation();
 
     const handleDelete = async (id) => {
         if (!window.confirm('Are you sure you want to delete this message?')) return;
 
         try {
-            const token = localStorage.getItem('adminToken');
-            await axios.delete(`${API_URL}/api/messages/${id}`, {
-                headers: { Authorization: `Bearer ${token}` }
-            });
+            await deleteMessage(id).unwrap();
             toast.success('Message deleted');
-            setMessages(messages.filter(m => m._id !== id));
         } catch (error) {
             toast.error('Failed to delete message');
         }
@@ -43,11 +21,7 @@ const Messages = () => {
 
     const handleMarkRead = async (id) => {
         try {
-            const token = localStorage.getItem('adminToken');
-            await axios.put(`${API_URL}/api/messages/${id}/read`, {}, {
-                headers: { Authorization: `Bearer ${token}` }
-            });
-            setMessages(messages.map(m => m._id === id ? { ...m, status: 'read' } : m));
+            await markMessageRead(id).unwrap();
             toast.success('Marked as read');
         } catch (error) {
             toast.error('Failed to update status');

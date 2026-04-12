@@ -1,24 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { API_URL } from '../config';
+import React from 'react';
+import { useGetPageBySlugQuery } from '../store/api/publicEndpoints';
 
 const DynamicPage = ({ slug, defaultTitle }) => {
-    const [page, setPage] = useState(null);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        const fetchPage = async () => {
-            try {
-                const response = await axios.get(`${API_URL}/api/pages/${slug}`);
-                setPage(response.data);
-                setLoading(false);
-            } catch (error) {
-                console.error(`Failed to fetch page: ${slug}`, error);
-                setLoading(false);
-            }
-        };
-        fetchPage();
-    }, [slug]);
+    const { data: page, isLoading: loading } = useGetPageBySlugQuery(slug);
 
     if (loading) return <div className="min-h-screen pt-20 text-center text-gray-400">Loading content...</div>;
 

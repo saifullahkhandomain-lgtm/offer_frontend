@@ -1,15 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import axios from 'axios';
-import { API_URL } from '../../config';
 import { toast } from 'react-toastify';
+import { useGetStoresQuery, useGetCategoriesQuery } from '../../store/api/publicEndpoints';
+import { useGetAdminCouponByIdQuery, useCreateCouponMutation, useUpdateCouponMutation } from '../../store/api/adminEndpoints';
 
 const CouponForm = () => {
     const { id } = useParams();
     const navigate = useNavigate();
-    const [loading, setLoading] = useState(false);
-    const [stores, setStores] = useState([]);
-    const [categories, setCategories] = useState([]);
+    const [createCoupon, { isLoading: creating }] = useCreateCouponMutation();
+    const [updateCoupon, { isLoading: updating }] = useUpdateCouponMutation();
+    const loading = creating || updating;
+
+    const { data: storesData = [] } = useGetStoresQuery();
+    const stores = Array.isArray(storesData) ? storesData : [];
+
+    const { data: categoriesData = [] } = useGetCategoriesQuery();
+    const categories = Array.isArray(categoriesData) ? categoriesData : [];
+
+    const { data: couponData } = useGetAdminCouponByIdQuery(id, { skip: !id });
+
     const [formData, setFormData] = useState({
         storeName: '',
         title: '',
@@ -26,42 +35,10 @@ const CouponForm = () => {
     });
 
     useEffect(() => {
-        fetchStores();
-        fetchCategories();
-        if (id) {
-            fetchCoupon();
+        if (couponData) {
+            setFormData(couponData);
         }
-    }, [id]);
-
-    const fetchStores = async () => {
-        try {
-            const response = await axios.get(`${API_URL}/api/stores`);
-            setStores(response.data);
-        } catch (error) {
-            console.error('Failed to fetch stores');
-        }
-    };
-
-    const fetchCategories = async () => {
-        try {
-            const response = await axios.get(`${API_URL}/api/categories`);
-            setCategories(response.data);
-        } catch (error) {
-            console.error('Failed to fetch categories');
-        }
-    };
-
-    const fetchCoupon = async () => {
-        try {
-            const response = await axios.get(`${API_URL}/api/admin/coupons/${id}`);
-            if (response.data.success) {
-                setFormData(response.data.data);
-            }
-        } catch (error) {
-            console.error('Fetch coupon error:', error);
-            toast.error('Failed to fetch coupon');
-        }
-    };
+    }, [couponData]);
 
     const handleChange = (e) => {
         const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
@@ -89,21 +66,18 @@ const CouponForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setLoading(true);
 
         try {
             if (id) {
-                await axios.put(`${API_URL}/api/admin/coupons/${id}`, formData);
+                await updateCoupon({ id, ...formData }).unwrap();
                 toast.success('Coupon updated successfully');
             } else {
-                await axios.post(`${API_URL}/api/admin/coupons`, formData);
+                await createCoupon(formData).unwrap();
                 toast.success('Coupon created successfully');
             }
             navigate('/admin/coupons');
         } catch (error) {
-            toast.error(error.response?.data?.error || 'Failed to save coupon');
-        } finally {
-            setLoading(false);
+            toast.error(error?.data?.error || 'Failed to save coupon');
         }
     };
 
