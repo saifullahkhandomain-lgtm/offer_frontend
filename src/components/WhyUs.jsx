@@ -38,7 +38,7 @@ const WhyUs = () => {
       <div className="container mx-auto px-4 relative z-10">
         {/* Header */}
         <div className="text-center mb-14">
-          <div className="section-tag mx-auto">🏆 Why DealDash?</div>
+          <div className="section-tag mx-auto">🏆 Why GrabYourPromos?</div>
           <h2 className="text-3xl md:text-5xl font-bold text-textMain mt-2">
             Trusted by <span className="text-gradient-violet">Millions</span> of Shoppers
           </h2>

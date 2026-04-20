@@ -47,7 +47,7 @@ function HomePage() {
     <>
       <SEO
         title="Home"
-        description="Discover the best coupons, promo codes, and deals for your favorite stores. Save money on every purchase with DealDash."
+        description="Discover the best coupons, promo codes, and deals for your favorite stores. Save money on every purchase with GrabYourPromos."
         keywords="coupons, promo codes, deals, discounts, savings, online shopping"
       />
 
@@ -113,7 +113,7 @@ function HomePage() {
       {/* 7. Latest Coupons */}
       <LatestCoupons />
 
-      {/* 8. Why DealDash */}
+      {/* 8. Why GrabYourPromos */}
       <WhyUs />
 
       {/* 9. Blog */}

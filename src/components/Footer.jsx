@@ -212,7 +212,7 @@ const Footer = () => {
       {/* Bottom Bar */}
       <div className="bg-[#0d0020] py-4 border-t border-white/5">
         <div className="container mx-auto px-4 text-center text-sm text-gray-500">
-          Copyright © 2026 DealDash. All Rights Reserved.
+          Copyright © 2026 GrabYourPromos. All Rights Reserved.
         </div>
       </div>
     </footer>

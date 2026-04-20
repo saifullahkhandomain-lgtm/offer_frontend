@@ -49,7 +49,7 @@ const BlogPostPage = () => {
               {blog.title}
             </h1>
             <div className="flex items-center gap-4 text-gray-300 text-sm">
-              <span>By {blog.author || "DealDash Team"}</span>
+              <span>By {blog.author || "GrabYourPromos Team"}</span>
               <span>•</span>
               <span>
                 {new Date(blog.createdAt).toLocaleDateString("en-US", {

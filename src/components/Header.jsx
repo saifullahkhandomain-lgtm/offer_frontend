@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-const DealDashLogo = () => (
-  <svg width="172" height="48" viewBox="0 0 172 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+const GrabYourPromosLogo = () => (
+  <svg width="210" height="48" viewBox="0 0 210 48" fill="none" xmlns="http://www.w3.org/2000/svg">
     <defs>
       <linearGradient id="logoGrad" x1="0" y1="0" x2="44" y2="44" gradientUnits="userSpaceOnUse">
         <stop offset="0%" stopColor="#8B5CF6" />
@@ -19,7 +19,7 @@ const DealDashLogo = () => (
     {/* Tag hole */}
     <circle cx="13.5" cy="24" r="2.5" fill="#6D28D9" />
 
-    {/* "Deal" wordmark */}
+    {/* "Grab" wordmark */}
     <text
       x="50" y="31"
       fontFamily="Poppins, system-ui, sans-serif"
@@ -27,18 +27,18 @@ const DealDashLogo = () => (
       fontSize="23"
       fill="#1E0A4E"
     >
-      Deal
+      Grab
     </text>
 
-    {/* "Dash" wordmark in brand violet */}
+    {/* "Promos" wordmark in brand violet */}
     <text
-      x="105" y="31"
+      x="107" y="31"
       fontFamily="Poppins, system-ui, sans-serif"
       fontWeight="800"
       fontSize="23"
       fill="#7C3AED"
     >
-      Dash
+      Promos
     </text>
   </svg>
 );
@@ -60,7 +60,7 @@ const Header = () => {
       <div className="container mx-auto px-4 h-20 flex items-center justify-between">
         {/* Logo */}
         <Link to="/" className="flex items-center z-50">
-          <DealDashLogo />
+          <GrabYourPromosLogo />
         </Link>
 
         {/* Desktop Navigation */}

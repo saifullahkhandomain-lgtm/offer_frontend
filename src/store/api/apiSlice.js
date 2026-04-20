@@ -24,6 +24,11 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 export const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery: baseQueryWithReauth,
+  // Keep unused data for 5 minutes by default before garbage-collecting
+  keepUnusedDataFor: 300,
+  // Don't refetch on every component mount if data is already cached
+  refetchOnMountOrArgChange: false,
+  refetchOnFocus: false,
   tagTypes: [
     'Categories', 'Stores', 'Coupons', 'Blogs', 'Pages', 'Settings',
     'AdminStores', 'AdminCoupons', 'AdminCategories', 'AdminBlogs',

@@ -40,7 +40,10 @@ export const adminApi = apiSlice.injectEndpoints({
     getAdminStores: builder.query({
       query: () => '/admin/stores',
       transformResponse: (response) => response.data,
-      providesTags: ['AdminStores'],
+      providesTags: (result) =>
+        result
+          ? [...result.map(({ _id }) => ({ type: 'AdminStores', id: _id })), { type: 'AdminStores', id: 'LIST' }]
+          : [{ type: 'AdminStores', id: 'LIST' }],
     }),
     createStore: builder.mutation({
       query: (body) => ({
@@ -48,7 +51,7 @@ export const adminApi = apiSlice.injectEndpoints({
         method: 'POST',
         body,
       }),
-      invalidatesTags: ['AdminStores', 'Stores'],
+      invalidatesTags: [{ type: 'AdminStores', id: 'LIST' }, 'Stores'],
     }),
     updateStore: builder.mutation({
       query: ({ id, ...body }) => ({
@@ -56,21 +59,32 @@ export const adminApi = apiSlice.injectEndpoints({
         method: 'PUT',
         body,
       }),
-      invalidatesTags: ['AdminStores', 'Stores'],
+      invalidatesTags: (result, error, { id }) => [
+        { type: 'AdminStores', id },
+        { type: 'AdminStores', id: 'LIST' },
+        'Stores',
+      ],
     }),
     deleteStore: builder.mutation({
       query: (id) => ({
         url: `/admin/stores/${id}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['AdminStores', 'Stores'],
+      invalidatesTags: (result, error, id) => [
+        { type: 'AdminStores', id },
+        { type: 'AdminStores', id: 'LIST' },
+        'Stores',
+      ],
     }),
 
     // Coupons
     getAdminCoupons: builder.query({
       query: () => '/admin/coupons',
       transformResponse: (response) => response.data,
-      providesTags: ['AdminCoupons'],
+      providesTags: (result) =>
+        result
+          ? [...result.map(({ _id }) => ({ type: 'AdminCoupons', id: _id })), { type: 'AdminCoupons', id: 'LIST' }]
+          : [{ type: 'AdminCoupons', id: 'LIST' }],
     }),
     getAdminCouponById: builder.query({
       query: (id) => `/admin/coupons/${id}`,
@@ -83,7 +97,7 @@ export const adminApi = apiSlice.injectEndpoints({
         method: 'POST',
         body,
       }),
-      invalidatesTags: ['AdminCoupons', 'Coupons'],
+      invalidatesTags: [{ type: 'AdminCoupons', id: 'LIST' }, 'Coupons'],
     }),
     updateCoupon: builder.mutation({
       query: ({ id, ...body }) => ({
@@ -91,20 +105,31 @@ export const adminApi = apiSlice.injectEndpoints({
         method: 'PUT',
         body,
       }),
-      invalidatesTags: ['AdminCoupons', 'Coupons'],
+      invalidatesTags: (result, error, { id }) => [
+        { type: 'AdminCoupons', id },
+        { type: 'AdminCoupons', id: 'LIST' },
+        'Coupons',
+      ],
     }),
     deleteCoupon: builder.mutation({
       query: (id) => ({
         url: `/admin/coupons/${id}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['AdminCoupons', 'Coupons'],
+      invalidatesTags: (result, error, id) => [
+        { type: 'AdminCoupons', id },
+        { type: 'AdminCoupons', id: 'LIST' },
+        'Coupons',
+      ],
     }),
 
     // Categories
     getAdminCategories: builder.query({
       query: () => '/admin/categories',
-      providesTags: ['AdminCategories'],
+      providesTags: (result) =>
+        result
+          ? [...result.map(({ _id }) => ({ type: 'AdminCategories', id: _id })), { type: 'AdminCategories', id: 'LIST' }]
+          : [{ type: 'AdminCategories', id: 'LIST' }],
     }),
     createCategory: builder.mutation({
       query: (body) => ({
@@ -112,7 +137,7 @@ export const adminApi = apiSlice.injectEndpoints({
         method: 'POST',
         body,
       }),
-      invalidatesTags: ['AdminCategories', 'Categories'],
+      invalidatesTags: [{ type: 'AdminCategories', id: 'LIST' }, 'Categories'],
     }),
     updateCategory: builder.mutation({
       query: ({ id, ...body }) => ({
@@ -120,14 +145,22 @@ export const adminApi = apiSlice.injectEndpoints({
         method: 'PUT',
         body,
       }),
-      invalidatesTags: ['AdminCategories', 'Categories'],
+      invalidatesTags: (result, error, { id }) => [
+        { type: 'AdminCategories', id },
+        { type: 'AdminCategories', id: 'LIST' },
+        'Categories',
+      ],
     }),
     deleteCategory: builder.mutation({
       query: (id) => ({
         url: `/admin/categories/${id}`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['AdminCategories', 'Categories'],
+      invalidatesTags: (result, error, id) => [
+        { type: 'AdminCategories', id },
+        { type: 'AdminCategories', id: 'LIST' },
+        'Categories',
+      ],
     }),
 
     // Blogs
