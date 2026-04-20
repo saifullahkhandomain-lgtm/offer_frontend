@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 
 const GrabYourPromosLogo = () => (
-  <svg width="210" height="48" viewBox="0 0 210 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg width="220" height="48" viewBox="0 0 220 48" fill="none" xmlns="http://www.w3.org/2000/svg">
     <defs>
       <linearGradient id="logoGrad" x1="0" y1="0" x2="44" y2="44" gradientUnits="userSpaceOnUse">
         <stop offset="0%" stopColor="#8B5CF6" />
@@ -32,7 +32,7 @@ const GrabYourPromosLogo = () => (
 
     {/* "Promos" wordmark in brand violet */}
     <text
-      x="107" y="31"
+      x="117" y="31"
       fontFamily="Poppins, system-ui, sans-serif"
       fontWeight="800"
       fontSize="23"
